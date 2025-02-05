@@ -6,9 +6,11 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(const MyApp());
+const String TARGET_DEVICE_NAME = "Team2Arduino";  // Change this to your device's name
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -46,32 +48,44 @@ class MyHomePageState extends State<MyHomePage> {
     }
   }
 
+
+
   _initBluetooth() async {
     var subscription = FlutterBluePlus.onScanResults.listen(
-          (results) {
+          (results) async {
         if (results.isNotEmpty) {
           for (ScanResult result in results) {
-            _addDeviceTolist(result.device);
+            _addDeviceTolist(result.device);  // Add device to the list (optional)
+
+            // Check if the device name matches the target
+            if (result.device.platformName == TARGET_DEVICE_NAME) {
+              FlutterBluePlus.stopScan();  // Stop scanning once found
+              try {
+                await result.device.connect();  // Connect to the device
+                _services = await result.device.discoverServices();  // Get services
+                setState(() {
+                  _connectedDevice = result.device;  // Update the UI
+                });
+              } on PlatformException catch (e) {
+                if (e.code != 'already_connected') {
+                  rethrow;
+                }
+              }
+            }
           }
         }
       },
       onError: (e) => ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
+        SnackBar(content: Text(e.toString())),
       ),
     );
 
     FlutterBluePlus.cancelWhenScanComplete(subscription);
 
+    // Ensure Bluetooth is ON before scanning
     await FlutterBluePlus.adapterState.where((val) => val == BluetoothAdapterState.on).first;
 
     await FlutterBluePlus.startScan();
-
-    await FlutterBluePlus.isScanning.where((val) => val == false).first;
-    FlutterBluePlus.connectedDevices.map((device) {
-      _addDeviceTolist(device);
-    });
   }
 
   @override

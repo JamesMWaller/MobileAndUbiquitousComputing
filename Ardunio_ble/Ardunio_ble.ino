@@ -16,22 +16,32 @@
 */
 
 #include <ArduinoBLE.h>
+#include <Arduino_LSM9DS1.h>
 
  // Bluetooth® Low Energy Battery Service
-BLEService batteryService("180F");
+BLEService dataService("180F");
 
 // Bluetooth® Low Energy Battery Level Characteristic
-BLEUnsignedCharCharacteristic batteryLevelChar("2A19",  // standard 16-bit characteristic UUID
+BLEUnsignedCharCharacteristic xVal("2A19",  // standard 16-bit characteristic UUID
     BLERead | BLENotify); // remote clients will be able to get notifications if this characteristic changes
 
-BLEUnsignedCharCharacteristic randomOutput("2A20",  // standard 16-bit characteristic UUID
+BLEUnsignedCharCharacteristic yVal("2A20",  // standard 16-bit characteristic UUID
     BLERead | BLENotify); // remote clients will be able to get notifications if this characteristic changes
+
+BLEUnsignedCharCharacteristic zVal("2A21",  // standard 16-bit characteristic UUID
+    BLERead | BLENotify); // remote clients will be able to get notifications if this characteristic changes
+
 
 
 int oldBatteryLevel = 0;  // last battery level reading from analog input
 long previousMillis = 0;  // last time the battery level was checked, in ms
 
 void setup() {
+  if (!IMU.begin()) {
+    Serial.println("Failed to initialize IMU!");
+    while (1);
+  }
+  Serial.println("X\tY\tZ");
   Serial.begin(9600);    // initialize serial communication
   while (!Serial);
 
@@ -49,12 +59,13 @@ void setup() {
      and can be used by remote devices to identify this Bluetooth® Low Energy device
      The name can be changed but maybe be truncated based on space left in advertisement packet
   */
-  BLE.setLocalName("BatteryMonitor");
-  BLE.setAdvertisedService(batteryService); // add the service UUID
-  batteryService.addCharacteristic(batteryLevelChar);
-  batteryService.addCharacteristic(randomOutput); // add the battery level characteristic
-  BLE.addService(batteryService); // Add the battery service
-  batteryLevelChar.writeValue(oldBatteryLevel); // set initial value for this characteristic
+  BLE.setLocalName("Team2Arduino");
+  BLE.setAdvertisedService(dataService); // add the service UUID
+  dataService.addCharacteristic(xVal);
+  dataService.addCharacteristic(yVal);
+  dataService.addCharacteristic(zVal); // add the battery level characteristic
+  BLE.addService(dataService); // Add the battery service
+   // set initial value for this characteristic
 
   /* Start advertising Bluetooth® Low Energy.  It will start continuously transmitting Bluetooth® Low Energy
      advertising packets and will be visible to remote Bluetooth® Low Energy central devices
@@ -85,7 +96,7 @@ void loop() {
       // if 200ms have passed, check the battery level:
       if (currentMillis - previousMillis >= 200) {
         previousMillis = currentMillis;
-        updateBatteryLevel();
+        updateValues();
       }
     }
     // when the central disconnects, turn off the LED:
@@ -95,20 +106,25 @@ void loop() {
   }
 }
 
-void updateBatteryLevel() {
+void updateValues() {
+  float x,y,z;
   /* Read the current voltage level on the A0 analog input pin.
      This is used here to simulate the charge level of a battery.
   */
-  int battery = analogRead(A0);
-  int batteryLevel = map(battery, 0, 1023, 0, 100);
-  int counter = 0;
+  if (IMU.accelerationAvailable()) {
+    IMU.readAcceleration(x, y, z);
+    
+    Serial.print((x+4)*100); 
+    Serial.print('\t');//ble only allows integer positives hence the x100 +400
+    Serial.print((y+4)*100);
+    Serial.print('\t');
+    Serial.println((z+4)*100); 
+    
 
-  if (batteryLevel != oldBatteryLevel) {  
-    counter = counter+1;    // if the battery level has changed
-    Serial.print("Battery Level % is now: "); // print it
-    Serial.println(batteryLevel);
-    batteryLevelChar.writeValue(batteryLevel);
-    randomOutput.writeValue(counter);  // and update the battery level characteristic
-    oldBatteryLevel = batteryLevel;           // save the level for next comparison
+    // if the battery level has changed
+    
+    xVal.writeValue((x+4)*10); //ble only allows integers between 0 and 256
+    yVal.writeValue((y+4)*10); // so detail is being lost atm
+    zVal.writeValue((z+4)*10);  // and update the battery level characteristic           // save the level for next comparison
   }
 }
