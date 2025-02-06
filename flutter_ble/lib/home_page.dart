@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ble/exercises.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -60,7 +61,8 @@ class HomePage extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    //todo: Here toby and Jun part
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Exercises())
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -68,7 +70,7 @@ class HomePage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    elevation: 4, 
+                    elevation: 4,
                     shadowColor: Colors.grey[700],
                     overlayColor: Colors.grey[800],
                   ),
