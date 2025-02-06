@@ -34,7 +34,12 @@ BLEUnsignedCharCharacteristic zVal("2A21",  // standard 16-bit characteristic UU
 
 
 int oldBatteryLevel = 0;  // last battery level reading from analog input
-long previousMillis = 0;  // last time the battery level was checked, in ms
+long previousMillis = 0; // last time the battery level was checked, in ms
+float xAverageList[5] = {0, 0, 0, 0, 0};
+float yAverageList[5] = {0, 0, 0, 0, 0};
+float zAverageList[5] = {0, 0, 0, 0, 0};
+
+
 
 void setup() {
   if (!IMU.begin()) {
@@ -94,7 +99,7 @@ void loop() {
     while (central.connected()) {
       long currentMillis = millis();
       // if 200ms have passed, check the battery level:
-      if (currentMillis - previousMillis >= 200) {
+      if (currentMillis - previousMillis >= 50) {
         previousMillis = currentMillis;
         updateValues();
       }
@@ -108,17 +113,36 @@ void loop() {
 
 void updateValues() {
   float x,y,z;
+  
+  
+
   /* Read the current voltage level on the A0 analog input pin.
      This is used here to simulate the charge level of a battery.
   */
   if (IMU.accelerationAvailable()) {
     IMU.readAcceleration(x, y, z);
+
+    shiftAndInsert(xAverageList , 5 , x);
+    shiftAndInsert(yAverageList , 5 , y);
+    shiftAndInsert(zAverageList , 5 , z);
+
+    float xAverage = getAverage(xAverageList, 5);
+    float yAverage = getAverage(yAverageList, 5);
+    float zAverage = getAverage(zAverageList, 5);
+
+
+
     
-    Serial.print((x+4)*100); 
-    Serial.print('\t');//ble only allows integer positives hence the x100 +400
-    Serial.print((y+4)*100);
+    Serial.print(xAverage);
     Serial.print('\t');
-    Serial.println((z+4)*100); 
+    Serial.print(yAverage);
+    Serial.print('\t');
+    Serial.print(zAverage);
+    Serial.print(x); 
+    Serial.print('\t');//ble only allows integer positives hence the x100 +400
+    Serial.print(y);
+    Serial.print('\t');
+    Serial.println(z); 
     
 
     // if the battery level has changed
@@ -127,4 +151,21 @@ void updateValues() {
     yVal.writeValue((y+4)*10); // so detail is being lost atm
     zVal.writeValue((z+4)*10);  // and update the battery level characteristic           // save the level for next comparison
   }
+}
+
+void shiftAndInsert(float arr[], int size, float newValue) {
+    // Shift all elements to the right
+    for (int i = size - 1; i > 0; i--) {
+        arr[i] = arr[i - 1];
+    }
+    // Insert the new value at the beginning
+    arr[0] = newValue;
+}
+
+float getAverage(float arr[], int size) {
+    float sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum += arr[i];
+    }
+    return sum / size;
 }
