@@ -26,7 +26,6 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
-  final List<BluetoothDevice> devicesList = <BluetoothDevice>[];
   final Map<Guid, List<int>> readValues = <Guid, List<int>>{};
 
   @override
@@ -38,16 +37,6 @@ class MyHomePageState extends State<MyHomePage> {
   BluetoothDevice? _connectedDevice;
   List<BluetoothService> _services = [];
 
-  _addDeviceTolist(final BluetoothDevice device) {
-    if (!widget.devicesList.contains(device) ) {
-      if (device.platformName != '') {
-        setState(() {
-          widget.devicesList.add(device);
-        });
-      }
-    }
-  }
-
 
 
   _initBluetooth() async {
@@ -55,17 +44,30 @@ class MyHomePageState extends State<MyHomePage> {
           (results) async {
         if (results.isNotEmpty) {
           for (ScanResult result in results) {
-            _addDeviceTolist(result.device);  // Add device to the list (optional)
-
-            // Check if the device name matches the target
+            // Check if this is the target device
             if (result.device.platformName == TARGET_DEVICE_NAME) {
-              FlutterBluePlus.stopScan();  // Stop scanning once found
+              FlutterBluePlus.stopScan(); // Stop scanning
               try {
-                await result.device.connect();  // Connect to the device
-                _services = await result.device.discoverServices();  // Get services
+                await result.device.connect(); // Connect to device
+                _services = await result.device.discoverServices(); // Get services
+
                 setState(() {
-                  _connectedDevice = result.device;  // Update the UI
+                  _connectedDevice = result.device; // Update UI to show connection screen
                 });
+
+                // Enable notifications for notifyable characteristics
+                for (BluetoothService service in _services) {
+                  for (BluetoothCharacteristic characteristic in service.characteristics) {
+                    if (characteristic.properties.notify) {
+                      await characteristic.setNotifyValue(true);
+                      characteristic.lastValueStream.listen((value) {
+                        setState(() {
+                          widget.readValues[characteristic.uuid] = value;
+                        });
+                      });
+                    }
+                  }
+                }
               } on PlatformException catch (e) {
                 if (e.code != 'already_connected') {
                   rethrow;
@@ -88,6 +90,8 @@ class MyHomePageState extends State<MyHomePage> {
     await FlutterBluePlus.startScan();
   }
 
+
+
   @override
   void initState() {
     () async {
@@ -108,56 +112,6 @@ class MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  ListView _buildListViewOfDevices() {
-    List<Widget> containers = <Widget>[];
-    for (BluetoothDevice device in widget.devicesList) {
-      containers.add(
-        SizedBox(
-          height: 50,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  children: <Widget>[
-                    Text(device.platformName == '' ? '(unknown device)' : device.advName),
-                    Text(device.remoteId.toString()),
-                  ],
-                ),
-              ),
-              TextButton(
-                child: const Text(
-                  'Connect',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onPressed: () async {
-                  FlutterBluePlus.stopScan();
-                  try {
-                    await device.connect();
-                  } on PlatformException catch (e) {
-                    if (e.code != 'already_connected') {
-                      rethrow;
-                    }
-                  } finally {
-                    _services = await device.discoverServices();
-                  }
-                  setState(() {
-                    _connectedDevice = device;
-                  });
-                },
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return ListView(
-      padding: const EdgeInsets.all(8),
-      children: <Widget>[
-        ...containers,
-      ],
-    );
-  }
 
   List<ButtonTheme> _buildReadWriteNotifyButton(BluetoothCharacteristic characteristic) {
     List<ButtonTheme> buttons = <ButtonTheme>[];
@@ -305,11 +259,14 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   ListView _buildView() {
-    if (_connectedDevice != null) {
-      return _buildConnectDeviceView();
-    }
-    return _buildListViewOfDevices();
+    return _connectedDevice != null ? _buildConnectDeviceView() : ListView(
+      padding: const EdgeInsets.all(8),
+      children: const [
+        Center(child: Text("Scanning for device...")),
+      ],
+    );
   }
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
