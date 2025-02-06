@@ -9,7 +9,10 @@ class Exercises extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Exercises')),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text('Exercises')
+      ),
       body: Column(
         children: [
           ElevatedButton(
