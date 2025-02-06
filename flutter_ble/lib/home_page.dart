@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white, Colors.grey[350]!],
+            colors: [Colors.white, Colors.grey[200]!],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -34,10 +34,10 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
+            const Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   Icon(
                     Icons.fitness_center_rounded,
                     size: 220,
@@ -62,24 +62,41 @@ class HomePage extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Exercises())
-                    );
+                    _navigateWithAnimation(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                     elevation: 4,
                     shadowColor: Colors.grey[700],
-                    overlayColor: Colors.grey[800],
                   ),
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  child: const Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Continue',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                )
               ),
             ),
           ],
@@ -87,4 +104,30 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+
+
+  void _navigateWithAnimation(BuildContext context) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 500),
+        pageBuilder: (_, animation, secondaryAnimation) => Exercises(),
+        transitionsBuilder: (_, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset(0.0, 0.0);
+          const curve = Curves.easeInOut;
+
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+
 }
