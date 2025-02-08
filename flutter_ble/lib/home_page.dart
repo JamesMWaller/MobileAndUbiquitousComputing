@@ -38,14 +38,18 @@ class HomePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.fitness_center_rounded,
-                    size: 220,
-                    color: Colors.black,
+                  CircleAvatar(
+                    radius: 120,
+                    backgroundColor: Colors.black,
+                    child: Icon(
+                      Icons.fitness_center_rounded,
+                      size: 150,
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(height: 20),
                   Text(
-                    'Welcome Back!',
+                    'Technique Controller',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -59,44 +63,45 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _navigateWithAnimation(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _navigateWithAnimation(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 4,
+                      shadowColor: Colors.grey[700],
                     ),
-                    elevation: 4,
-                    shadowColor: Colors.grey[700],
-                  ),
-                  child: const Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Continue',
-                          style: TextStyle(
-                            fontSize: 18,
+                    child: const Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 20,
                             color: Colors.white,
                           ),
                         ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Icon(
-                          Icons.arrow_forward_ios,
-                          size: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                      ],
+                    ),
+                  )
               ),
             ),
           ],
@@ -104,8 +109,6 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
-
 
   void _navigateWithAnimation(BuildContext context) {
     Navigator.of(context).push(
@@ -117,7 +120,8 @@ class HomePage extends StatelessWidget {
           const end = Offset(0.0, 0.0);
           const curve = Curves.easeInOut;
 
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var tween = Tween(begin: begin, end: end).chain(
+              CurveTween(curve: curve));
           var offsetAnimation = animation.drive(tween);
 
           return SlideTransition(
@@ -128,6 +132,4 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
-
 }
