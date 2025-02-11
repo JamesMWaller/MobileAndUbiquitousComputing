@@ -5,9 +5,10 @@ class MyBluetoothService {
   static final MyBluetoothService _instance = MyBluetoothService._internal();
   factory MyBluetoothService() => _instance;
 
-  fbp.BluetoothCharacteristic? get xCharacteristic => _xCharacteristic;
-  fbp.BluetoothCharacteristic? get yCharacteristic => _yCharacteristic;
-  fbp.BluetoothCharacteristic? get zCharacteristic => _zCharacteristic;
+
+
+
+
 
 
   MyBluetoothService._internal();
@@ -20,6 +21,25 @@ class MyBluetoothService {
   fbp.BluetoothCharacteristic? _yCharacteristic;
   fbp.BluetoothCharacteristic? _zCharacteristic;
 
+  // Declarar las características BLE del giroscopio
+  fbp.BluetoothCharacteristic? _gyroXCharacteristic;
+  fbp.BluetoothCharacteristic? _gyroYCharacteristic;
+  fbp.BluetoothCharacteristic? _gyroZCharacteristic;
+
+
+  fbp.BluetoothCharacteristic? get rollCharacteristic => _rollCharacteristic;
+  fbp.BluetoothCharacteristic? get pitchCharacteristic => _pitchCharacteristic;
+
+  fbp.BluetoothCharacteristic? get gyroXCharacteristic => _gyroXCharacteristic;
+  fbp.BluetoothCharacteristic? get gyroYCharacteristic => _gyroYCharacteristic;
+  fbp.BluetoothCharacteristic? get gyroZCharacteristic => _gyroZCharacteristic;
+
+  fbp.BluetoothCharacteristic? get xCharacteristic => _xCharacteristic;
+  fbp.BluetoothCharacteristic? get yCharacteristic => _yCharacteristic;
+  fbp.BluetoothCharacteristic? get zCharacteristic => _zCharacteristic;
+
+
+
   final StreamController<String> _gravityStreamController = StreamController<String>.broadcast();
 
   Stream<String> get gravityDirectionStream => _gravityStreamController.stream;
@@ -27,6 +47,9 @@ class MyBluetoothService {
   Timer? _gravityTimer;
 
   bool get isConnected => _device != null && _xCharacteristic != null && _yCharacteristic != null && _zCharacteristic != null;
+
+  fbp.BluetoothCharacteristic? _rollCharacteristic;
+  fbp.BluetoothCharacteristic? _pitchCharacteristic;
 
   Future<bool> connectToDevice() async {
     var subscription = fbp.FlutterBluePlus.onScanResults.listen(
@@ -49,6 +72,11 @@ class MyBluetoothService {
                   } else if (char.uuid == fbp.Guid('2A21')) {
                     _zCharacteristic = char;
                   }
+                  if (char.uuid == fbp.Guid('2A22')) _rollCharacteristic = char;
+                  if (char.uuid == fbp.Guid('2A23')) _pitchCharacteristic = char;
+                  if (char.uuid == fbp.Guid('2A24')) _gyroXCharacteristic = char;
+                  if (char.uuid == fbp.Guid('2A25')) _gyroYCharacteristic = char;
+                  if (char.uuid == fbp.Guid('2A26')) _gyroZCharacteristic = char;
                 }
               }
 

@@ -31,7 +31,12 @@ BLEUnsignedCharCharacteristic yVal("2A20",  // standard 16-bit characteristic UU
 BLEUnsignedCharCharacteristic zVal("2A21",  // standard 16-bit characteristic UUID
     BLERead | BLENotify); // remote clients will be able to get notifications if this characteristic changes
 
+BLEUnsignedCharCharacteristic rollVal("2A22", BLERead | BLENotify);
+BLEUnsignedCharCharacteristic pitchVal("2A23", BLERead | BLENotify)
 
+float xAverageList[5] = {0, 0, 0, 0, 0};
+float yAverageList[5] = {0, 0, 0, 0, 0};
+float zAverageList[5] = {0, 0, 0, 0, 0
 
 int oldBatteryLevel = 0;  // last battery level reading from analog input
 long previousMillis = 0; // last time the battery level was checked, in ms
@@ -129,6 +134,8 @@ void updateValues() {
     float xAverage = getAverage(xAverageList, 5);
     float yAverage = getAverage(yAverageList, 5);
     float zAverage = getAverage(zAverageList, 5);
+    float roll = atan2(yAverage, zAverage) * 180.0 / PI;
+    float pitch = atan2(xAverage, zAverage) * 180.0 / PI;
 
 
 
@@ -150,6 +157,10 @@ void updateValues() {
     xVal.writeValue((x+4)*10); //ble only allows integers between 0 and 256
     yVal.writeValue((y+4)*10); // so detail is being lost atm
     zVal.writeValue((z+4)*10);  // and update the battery level characteristic           // save the level for next comparison
+
+
+
+
   }
 }
 
