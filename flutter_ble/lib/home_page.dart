@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'exercises.dart';
-import 'my_bluetooth_service.dart'; // Import your Bluetooth service class
+import 'my_bluetooth_service.dart';
+import 'arduino_data_display.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -148,6 +149,18 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ArduinoDataDisplay()));
+              },
+              child: Text(
+                  'Variables data'
+              ),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white
               ),
             ),
           ],

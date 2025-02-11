@@ -5,6 +5,11 @@ class MyBluetoothService {
   static final MyBluetoothService _instance = MyBluetoothService._internal();
   factory MyBluetoothService() => _instance;
 
+  fbp.BluetoothCharacteristic? get xCharacteristic => _xCharacteristic;
+  fbp.BluetoothCharacteristic? get yCharacteristic => _yCharacteristic;
+  fbp.BluetoothCharacteristic? get zCharacteristic => _zCharacteristic;
+
+
   MyBluetoothService._internal();
 
   final String targetDeviceName = "Team2Arduino";
