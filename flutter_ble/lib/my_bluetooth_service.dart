@@ -2,6 +2,11 @@ import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as fbp;
 
 class MyBluetoothService {
+  static final MyBluetoothService _instance = MyBluetoothService._internal();
+  factory MyBluetoothService() => _instance;
+
+  MyBluetoothService._internal();
+
   final String targetDeviceName = "Team2Arduino";
 
   fbp.BluetoothDevice? _device;
@@ -11,6 +16,7 @@ class MyBluetoothService {
   fbp.BluetoothCharacteristic? _zCharacteristic;
 
   final StreamController<String> _gravityStreamController = StreamController<String>.broadcast();
+
   Stream<String> get gravityDirectionStream => _gravityStreamController.stream;
 
   Timer? _gravityTimer;
@@ -61,12 +67,12 @@ class MyBluetoothService {
     return isConnected;
   }
 
-  void startGravityUpdates() {
-    _gravityTimer?.cancel(); // Ensure we don't start multiple timers
-    _gravityTimer = Timer.periodic(Duration(milliseconds: 500), (timer) async {
+  Future<void> startGravityUpdates() async {
+    while (true) {
       String direction = await getGravityDirection();
       _gravityStreamController.add(direction);
-    });
+      await Future.delayed(Duration(seconds: 1));
+    }
   }
 
   Future<String> getGravityDirection() async {
@@ -115,7 +121,6 @@ class MyBluetoothService {
   }
 
   void dispose() {
-    _gravityTimer?.cancel();
     _gravityStreamController.close();
   }
 }
