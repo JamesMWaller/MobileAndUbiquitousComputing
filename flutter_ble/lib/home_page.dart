@@ -1,8 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ble/exercises.dart';
+import 'exercises.dart';
+import 'my_bluetooth_service.dart'; // Import your Bluetooth service class
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final MyBluetoothService _bluetoothService = MyBluetoothService();
+
+  @override
+  void initState() {
+    super.initState();
+    _bluetoothService.connectToDevice(); // Start connection on load
+  }
+
+
+
+  @override
+  void dispose() {
+    _bluetoothService.dispose(); //cleans up bluetooth stream after widget closes
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,48 +82,72 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
+            // Gravity direction text using StreamBuilder
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              // create streambuilder
+              child: StreamBuilder<String>(
+                // tell streambuilder what stream to listen to
+                stream: _bluetoothService.gravityDirectionStream,
+                builder: (context, snapshot) {
+                  //snapshot.hasData checks if the stream has emitted at least one value.
+                  // If true, snapshot.data! gives the latest gravity direction.
+                  // If false, show "Loading..." as a placeholder.
+                  String gravityText = snapshot.hasData ? snapshot.data! : "Loading...";
+                  // displays the value of gravityText
+                  return Text(
+                    'Vertical Axis: $gravityText',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
+                  );
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _navigateWithAnimation(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 16, horizontal: 24),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      elevation: 4,
-                      shadowColor: Colors.grey[700],
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _navigateWithAnimation(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 24),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    child: const Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Continue',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 20,
+                    elevation: 4,
+                    shadowColor: Colors.grey[700],
+                  ),
+                  child: const Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Continue',
+                          style: TextStyle(
+                            fontSize: 18,
                             color: Colors.white,
                           ),
                         ),
-                      ],
-                    ),
-                  )
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
