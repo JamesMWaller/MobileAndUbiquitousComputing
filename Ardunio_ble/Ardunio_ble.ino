@@ -32,17 +32,13 @@ BLEUnsignedCharCharacteristic zVal("2A21",  // standard 16-bit characteristic UU
     BLERead | BLENotify); // remote clients will be able to get notifications if this characteristic changes
 
 BLEUnsignedCharCharacteristic rollVal("2A22", BLERead | BLENotify);
-BLEUnsignedCharCharacteristic pitchVal("2A23", BLERead | BLENotify)
+BLEUnsignedCharCharacteristic pitchVal("2A23", BLERead | BLENotify);
+BLEUnsignedCharCharacteristic yawVal("2A24", BLERead | BLENotify);
 
-float xAverageList[5] = {0, 0, 0, 0, 0};
-float yAverageList[5] = {0, 0, 0, 0, 0};
-float zAverageList[5] = {0, 0, 0, 0, 0
+
 
 int oldBatteryLevel = 0;  // last battery level reading from analog input
 long previousMillis = 0; // last time the battery level was checked, in ms
-float xAverageList[5] = {0, 0, 0, 0, 0};
-float yAverageList[5] = {0, 0, 0, 0, 0};
-float zAverageList[5] = {0, 0, 0, 0, 0};
 
 
 
@@ -51,6 +47,7 @@ void setup() {
     Serial.println("Failed to initialize IMU!");
     while (1);
   }
+  
   Serial.println("X\tY\tZ");
   Serial.begin(9600);    // initialize serial communication
   while (!Serial);
@@ -73,7 +70,10 @@ void setup() {
   BLE.setAdvertisedService(dataService); // add the service UUID
   dataService.addCharacteristic(xVal);
   dataService.addCharacteristic(yVal);
-  dataService.addCharacteristic(zVal); // add the battery level characteristic
+  dataService.addCharacteristic(zVal);
+  dataService.addCharacteristic(rollVal);
+  dataService.addCharacteristic(pitchVal);
+  dataService.addCharacteristic(yawVal); // add the battery level characteristic
   BLE.addService(dataService); // Add the battery service
    // set initial value for this characteristic
 
@@ -127,56 +127,20 @@ void updateValues() {
   if (IMU.accelerationAvailable()) {
     IMU.readAcceleration(x, y, z);
 
-    shiftAndInsert(xAverageList , 5 , x);
-    shiftAndInsert(yAverageList , 5 , y);
-    shiftAndInsert(zAverageList , 5 , z);
-
-    float xAverage = getAverage(xAverageList, 5);
-    float yAverage = getAverage(yAverageList, 5);
-    float zAverage = getAverage(zAverageList, 5);
-    float roll = atan2(yAverage, zAverage) * 180.0 / PI;
-    float pitch = atan2(xAverage, zAverage) * 180.0 / PI;
-
-
-
-    
-    Serial.print(xAverage);
-    Serial.print('\t');
-    Serial.print(yAverage);
-    Serial.print('\t');
-    Serial.print(zAverage);
-    Serial.print(x); 
-    Serial.print('\t');//ble only allows integer positives hence the x100 +400
-    Serial.print(y);
-    Serial.print('\t');
-    Serial.println(z); 
-    
-
     // if the battery level has changed
     
     xVal.writeValue((x+4)*10); //ble only allows integers between 0 and 256
     yVal.writeValue((y+4)*10); // so detail is being lost atm
-    zVal.writeValue((z+4)*10);  // and update the battery level characteristic           // save the level for next comparison
+    zVal.writeValue((z+4)*10);
+  }
+  if (IMU.gyroscopeAvailable()) {
+    IMU.readGyroscope(x, y, z);
 
-
-
+    rollVal.writeValue((x+2000)/1000);
+    pitchVal.writeValue((y+2000)/1000);
+    yawVal.writeValue((z+2000)/1000);
 
   }
+
 }
 
-void shiftAndInsert(float arr[], int size, float newValue) {
-    // Shift all elements to the right
-    for (int i = size - 1; i > 0; i--) {
-        arr[i] = arr[i - 1];
-    }
-    // Insert the new value at the beginning
-    arr[0] = newValue;
-}
-
-float getAverage(float arr[], int size) {
-    float sum = 0;
-    for (int i = 0; i < size; i++) {
-        sum += arr[i];
-    }
-    return sum / size;
-}

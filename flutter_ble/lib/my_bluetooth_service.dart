@@ -29,6 +29,7 @@ class MyBluetoothService {
 
   fbp.BluetoothCharacteristic? get rollCharacteristic => _rollCharacteristic;
   fbp.BluetoothCharacteristic? get pitchCharacteristic => _pitchCharacteristic;
+  fbp.BluetoothCharacteristic? get yawCharacteristic => _yawCharacteristic;
 
   fbp.BluetoothCharacteristic? get gyroXCharacteristic => _gyroXCharacteristic;
   fbp.BluetoothCharacteristic? get gyroYCharacteristic => _gyroYCharacteristic;
@@ -50,6 +51,7 @@ class MyBluetoothService {
 
   fbp.BluetoothCharacteristic? _rollCharacteristic;
   fbp.BluetoothCharacteristic? _pitchCharacteristic;
+  fbp.BluetoothCharacteristic? _yawCharacteristic;
 
   Future<bool> connectToDevice() async {
     var subscription = fbp.FlutterBluePlus.onScanResults.listen(
@@ -74,9 +76,8 @@ class MyBluetoothService {
                   }
                   if (char.uuid == fbp.Guid('2A22')) _rollCharacteristic = char;
                   if (char.uuid == fbp.Guid('2A23')) _pitchCharacteristic = char;
-                  if (char.uuid == fbp.Guid('2A24')) _gyroXCharacteristic = char;
-                  if (char.uuid == fbp.Guid('2A25')) _gyroYCharacteristic = char;
-                  if (char.uuid == fbp.Guid('2A26')) _gyroZCharacteristic = char;
+                  if (char.uuid == fbp.Guid('2A24')) _yawCharacteristic = char;
+
                 }
               }
 
