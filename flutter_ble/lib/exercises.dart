@@ -1,255 +1,168 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ble/bicep_curl_details.dart';
-import 'home_page.dart';
+import 'package:animated_appbar/animated_appbar.dart';
 
+class Exercises extends StatelessWidget with RoutePage {
+  @override
+  Widget build(BuildContext context) {
+    return BaseLayout(
+      appBar: AnimatedAppBar(
+        initHeight: 135.0,
+        backgroundColor: Color(0xff7a7ad1),
+        child: Container(
+          key: UniqueKey(),
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.0),
+                  onPressed: () => Navigator.pop(context)
+                ),
+                Text(
+                  "Exercises",
+                  style: TextStyle(color: Colors.white, fontSize: 20.0),
+                ),
+                Icon(Icons.fitness_center, color: Colors.white, size: 24.0),
+              ],
+            ),
+          ),
+        ),
+      ),
+      scaffold: Scaffold(
+        backgroundColor: Colors.white,
+        body: Padding(padding: EdgeInsets.only(top: 150),
+        child: Column(
+          children: [
+            ExerciseCard(
+              title: "Bicep Curl",
+              goal: "8/10",
+              image: ImgSample.get("bicep_curl_photo.gif"),
+              progress: 0.7,
+              onTap: () => routePageWithNewAppBar(DetailsPage(), newAppBar()),
+            ),
+            ExerciseCard(
+              title: "Dumbbell Curl",
+              goal: "10/10",
+              image: ImgSample.get("dumbell_curl_photo.gif"),
+              progress: 1.0,
+              onTap: () => routePageWithNewAppBar(DetailsPage(), newAppBar()),
+            ),
+            ExerciseCard(
+              title: "Hammer Curl",
+              goal: "5/10",
+              image: ImgSample.get("hammer_curl_photo.gif"),
+              progress: 0.5,
+              onTap: () => routePageWithNewAppBar(DetailsPage(), newAppBar()),
+            ),
+          ],
+        ),)
+      ),
+    );
+  }
 
-class Exercises extends StatelessWidget {
+  Widget newAppBar() {
+    return Container(
+      key: UniqueKey(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.0),
+            onPressed: () =>  previousPage(),
+          ),
+          Text(
+            "Exercise Details",
+            style: TextStyle(color: Color(0xfff7f4cc), fontSize: 20),
+          ),
 
+        ],
+      )
+    );
+  }
+}
 
-
-
+class DetailsPage extends StatelessWidget with RoutePage {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text('Exercises'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Exercise Details",
+              style: TextStyle(fontSize: 50),
+            )
+          ],
+        ),
       ),
-      body: Column(
-        children: [
-          Card(
-            color: Colors.white,
-            // Define the shape of the card
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            // Define how the card's content should be clipped
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            // Define the child widget of the card
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // Add padding around the row widget
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      // Add an image widget to display an image
-                      Image.asset(
-                        ImgSample.get("bicep_curl_photo.gif"),
-                        height: 100,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ),
-                      // Add some spacing between the image and the text
-                      Container(width: 20),
-                      // Add an expanded widget to take up the remaining horizontal space
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            // Add some spacing between the top of the card and the title
-                            Container(height: 5),
-                            // Add a title widget
+    );
+  }
+}
 
-                            Text(
-                              "Bicep Curl",
-                              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                                color: Colors.grey[800],
-                              ),
-                            ),
-                            // Add some spacing between the title and the subtitle
-                            Container(height: 5),
-                            // Add a subtitle widget
-                            Text(
-                              "Goal: 8/10",
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                color: Colors.grey[500],
-                              ),
-                            ),
-                            // Add some spacing between the subtitle and the text
-                            Container(height: 10),
-                            // Add a text widget to display some text
-                            LinearProgressIndicator(
-                              value: 0.7, // Set the progress value (0.0 to 1.0)
-                              backgroundColor: Colors.grey[300],
-                              color: Colors.blue,
-                              minHeight: 8.0, // Adjust the height of the progress bar
-                            ),
-                            // Text(
-                            //   "Your Card Text Here",
-                            //   maxLines: 2,
-                            //   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            //     color: Colors.grey[700],
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Card(
-            color: Colors.white,
-            // Define the shape of the card
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            // Define how the card's content should be clipped
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            // Define the child widget of the card
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // Add padding around the row widget
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      // Add an image widget to display an image
-                      Image.asset(
-                        ImgSample.get("dumbell_curl_photo.gif"),
-                        height: 100,
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ),
-                      // Add some spacing between the image and the text
-                      Container(width: 20),
-                      // Add an expanded widget to take up the remaining horizontal space
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            // Add some spacing between the top of the card and the title
-                            Container(height: 5),
-                            // Add a title widget
-                            Text(
-                              "Dumbbell Curl",
-                              style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                                color: Colors.grey[800],
-                              ),
-                            ),
-                            // Add some spacing between the title and the subtitle
-                            Container(height: 5),
-                            // Add a subtitle widget
-                            Text(
-                              "Goal: 10/10",
-                              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                color: Colors.grey[500],
-                              ),
-                            ),
-                            // Add some spacing between the subtitle and the text
-                            Container(height: 10),
-                            // Add a text widget to display some text
-                            LinearProgressIndicator(
-                              value: 1.0, // Set the progress value (0.0 to 1.0)
-                              backgroundColor: Colors.grey[300],
-                              color: Colors.blue,
-                              minHeight: 8.0, // Adjust the height of the progress bar
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          InkWell(
-            onTap:() => _navigateWithAnimation(context),
-            child: Card(
-              color: Colors.white,
-              // Define the shape of the card
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-              // Define how the card's content should be clipped
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              // Define the child widget of the card
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  // Add padding around the row widget
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        // Add an image widget to display an image
-                        Image.asset(
-                          ImgSample.get("hammer_curl_photo.gif"),
-                          height: 100,
-                          width: 100,
-                          fit: BoxFit.cover,
-                        ),
-                        // Add some spacing between the image and the text
-                        Container(width: 20),
-                        // Add an expanded widget to take up the remaining horizontal space
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              // Add some spacing between the top of the card and the title
-                              Container(height: 5),
-                              // Add a title widget
-                              Text(
-                                "Hammer Curl",
-                                style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                                  color: Colors.grey[800],
-                                ),
-                              ),
-                              // Add some spacing between the title and the subtitle
-                              Container(height: 5),
-                              // Add a subtitle widget
-                              Text(
-                                "Goal: 5/10",
-                                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                                  color: Colors.grey[500],
-                                ),
-                              ),
-                              // Add some spacing between the subtitle and the text
-                              Container(height: 10),
-                              // Add a text widget to display some text
-                              LinearProgressIndicator(
-                                value: 0.5, // Set the progress value (0.0 to 1.0)
-                                backgroundColor: Colors.grey[300],
-                                color: Colors.blue,
-                                minHeight: 8.0, // Adjust the height of the progress bar
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+class ExerciseCard extends StatelessWidget {
+  final String title;
+  final String goal;
+  final String image;
+  final double progress;
+  final VoidCallback onTap;
+
+  ExerciseCard({
+    required this.title,
+    required this.goal,
+    required this.image,
+    required this.progress,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Image.asset(image, height: 100, width: 100, fit: BoxFit.cover),
+              SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(color: Colors.grey[800]),
                     ),
-                  ),
-                ],
+                    SizedBox(height: 5),
+                    Text(
+                      "Goal: $goal",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.grey[500]),
+                    ),
+                    SizedBox(height: 10),
+                    LinearProgressIndicator(
+                      value: progress,
+                      backgroundColor: Colors.grey[300],
+                      color: Colors.blue,
+                      minHeight: 8.0,
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-
-          SizedBox(height: 40),
-          ElevatedButton(
-
-            onPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
-            },
-            child: Text(
-                'Go back to the home page'
-            ),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white
-            ),
-
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -257,29 +170,6 @@ class Exercises extends StatelessWidget {
 
 class ImgSample {
   static String get(String imageName) {
-    return 'assets/$imageName'; // Adjust the path as needed
+    return 'assets/$imageName';
   }
-}
-
-void _navigateWithAnimation(BuildContext context) {
-  Navigator.of(context).push(
-    PageRouteBuilder(
-      transitionDuration: const Duration(milliseconds: 500),
-      pageBuilder: (_, animation, secondaryAnimation) => Details_Page(),
-      transitionsBuilder: (_, animation, secondaryAnimation, child) {
-        const begin = Offset(1.0, 0.0);
-        const end = Offset(0.0, 0.0);
-        const curve = Curves.easeInOut;
-
-        var tween = Tween(begin: begin, end: end).chain(
-            CurveTween(curve: curve));
-        var offsetAnimation = animation.drive(tween);
-
-        return SlideTransition(
-          position: offsetAnimation,
-          child: child,
-        );
-      },
-    ),
-  );
 }
