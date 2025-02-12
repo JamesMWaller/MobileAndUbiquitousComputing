@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animated_appbar/animated_appbar.dart';
-
+import 'home_page.dart';
 class Exercises extends StatelessWidget with RoutePage {
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,9 @@ class Exercises extends StatelessWidget with RoutePage {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButton(icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.0),
-                  onPressed: () => Navigator.pop(context)
+                  onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HomePage())
+                  ),
                 ),
                 Text(
                   "Exercises",
@@ -64,8 +66,8 @@ class Exercises extends StatelessWidget with RoutePage {
     return Container(
       key: UniqueKey(),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.0),
@@ -75,7 +77,7 @@ class Exercises extends StatelessWidget with RoutePage {
             "Exercise Details",
             style: TextStyle(color: Color(0xfff7f4cc), fontSize: 20),
           ),
-
+          Icon(Icons.settings, color: Colors.white, size: 24.0),
         ],
       )
     );
