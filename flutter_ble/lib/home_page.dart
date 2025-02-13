@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'NavToolBar/exercises.dart';
+import 'NavToolBar/Items/exercises.dart';
 import 'Bluetooth/my_bluetooth_service.dart';
-import 'NavToolBar/arduino_data_display.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'NavToolBar/Items/arduino_data_display.dart';
+import 'NavToolBar/bottom_nav_bar.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).push(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 600), // Increased duration
-        pageBuilder: (context, animation, secondaryAnimation) => Exercises(),
+        pageBuilder: (context, animation, secondaryAnimation) => BottomNavBar(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

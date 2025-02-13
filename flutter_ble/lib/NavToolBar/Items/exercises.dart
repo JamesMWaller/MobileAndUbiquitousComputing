@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:animated_appbar/animated_appbar.dart';
-import '../home_page.dart';
+import '../../home_page.dart';
+import '../bottom_nav_bar.dart';
+
+
 class Exercises extends StatelessWidget with RoutePage {
   @override
   Widget build(BuildContext context) {

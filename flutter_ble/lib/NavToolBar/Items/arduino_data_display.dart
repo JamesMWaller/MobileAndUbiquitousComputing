@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Bluetooth/my_bluetooth_service.dart';
+import '../../Bluetooth/my_bluetooth_service.dart';
 class ArduinoDataDisplay extends StatefulWidget {
   const ArduinoDataDisplay({super.key});
   @override
