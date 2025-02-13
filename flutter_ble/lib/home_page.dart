@@ -27,7 +27,16 @@ class _HomePageState extends State<HomePage> {
 
   void _navigateToExercises() {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => Exercises()),
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 600), // Increased duration
+        pageBuilder: (context, animation, secondaryAnimation) => Exercises(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
     );
   }
 
@@ -56,13 +65,16 @@ class _HomePageState extends State<HomePage> {
           children: [
             GestureDetector(
               onTap: _navigateToExercises,
-              child: const CircleAvatar(
-                radius: 120,
-                backgroundColor: Colors.black,
-                child: Icon(
-                  Icons.fitness_center_rounded,
-                  size: 150,
-                  color: Colors.white,
+              child: Hero(
+                tag: 'exerciseAvatar',
+                child: const CircleAvatar(
+                  radius: 120,
+                  backgroundColor: Colors.black,
+                  child: Icon(
+                    Icons.fitness_center_rounded,
+                    size: 150,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

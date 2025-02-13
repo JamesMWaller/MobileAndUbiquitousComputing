@@ -15,16 +15,39 @@ class Exercises extends StatelessWidget with RoutePage {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.0),
-                  onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => HomePage())
-                  ),
+                IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.0),
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        transitionDuration: const Duration(milliseconds: 600), // Same duration as forward transition
+                        pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          return FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          );
+                        },
+                      ),
+                    );
+                  },
                 ),
                 Text(
                   "Exercises",
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                 ),
-                Icon(Icons.fitness_center, color: Colors.white, size: 24.0),
+                Hero(
+                  tag: 'exerciseAvatar',
+                  child: const CircleAvatar(
+                    radius: 24,
+                    backgroundColor: Colors.black,
+                    child: Icon(
+                      Icons.fitness_center_rounded,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
