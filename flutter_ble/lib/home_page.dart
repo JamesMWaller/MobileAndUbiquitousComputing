@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'exercises.dart';
-import 'my_bluetooth_service.dart';
-import 'arduino_data_display.dart';
+import 'NavToolBar/exercises.dart';
+import 'Bluetooth/my_bluetooth_service.dart';
+import 'NavToolBar/arduino_data_display.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
