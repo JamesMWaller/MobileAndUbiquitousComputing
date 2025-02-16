@@ -1,125 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:animated_appbar/animated_appbar.dart';
-import '../../home_page.dart';
-import '../bottom_nav_bar.dart';
-
+import 'package:flutter_ble/NavToolBar/Items/LatRaisesDetailsPage.dart';
+import 'BicepCurlDetailsPage.dart';
 
 class Exercises extends StatelessWidget with RoutePage {
   @override
   Widget build(BuildContext context) {
-    return BaseLayout(
-      appBar: AnimatedAppBar(
-        initHeight: 135.0,
-        backgroundColor: Color(0xff7a7ad1),
-        child: Container(
-          key: UniqueKey(),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.0),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      PageRouteBuilder(
-                        transitionDuration: const Duration(milliseconds: 600), // Same duration as forward transition
-                        pageBuilder: (context, animation, secondaryAnimation) => const HomePage(),
-                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                          return FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          );
-                        },
-                      ),
-                    );
-                  },
-                ),
-                Text(
-                  "Exercises",
-                  style: TextStyle(color: Colors.white, fontSize: 20.0),
-                ),
-                Hero(
-                  tag: 'exerciseAvatar',
-                  child: const CircleAvatar(
-                    radius: 24,
-                    backgroundColor: Colors.black,
-                    child: Icon(
-                      Icons.fitness_center_rounded,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      scaffold: Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(padding: EdgeInsets.only(top: 150),
-        child: Column(
-          children: [
-            ExerciseCard(
-              title: "Bicep Curl",
-              goal: "8/10",
-              image: ImgSample.get("bicep_curl_photo.gif"),
-              progress: 0.7,
-              onTap: () => routePageWithNewAppBar(DetailsPage(), newAppBar()),
-            ),
-            ExerciseCard(
-              title: "Dumbbell Curl",
-              goal: "10/10",
-              image: ImgSample.get("dumbell_curl_photo.gif"),
-              progress: 1.0,
-              onTap: () => routePageWithNewAppBar(DetailsPage(), newAppBar()),
-            ),
-            ExerciseCard(
-              title: "Hammer Curl",
-              goal: "5/10",
-              image: ImgSample.get("hammer_curl_photo.gif"),
-              progress: 0.5,
-              onTap: () => routePageWithNewAppBar(DetailsPage(), newAppBar()),
-            ),
-          ],
-        ),)
-      ),
-    );
-  }
-
-  Widget newAppBar() {
-    return Container(
-      key: UniqueKey(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
+    return Scaffold(
+      appBar: AppBar(title: Text("Exercises")),
+      body:
+      Column(
         children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white, size: 24.0),
-            onPressed: () =>  previousPage(),
+          ExerciseCard(
+            title: "Bicep Curl",
+            goal: "8/10",
+            image: ImgSample.get("bicep_curl_photo.gif"),
+            progress: 0.7,
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => DetailsPage()));
+            },
+
           ),
-          Text(
-            "Exercise Details",
-            style: TextStyle(color: Color(0xfff7f4cc), fontSize: 20),
+          ExerciseCard(
+            title: "Lat Raises",
+            goal: "10/10",
+            image: ImgSample.get("dumbell_curl_photo.gif"),
+            progress: 1.0,
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => LatDetailsPage()));
+            },
           ),
-          Icon(Icons.settings, color: Colors.white, size: 24.0),
         ],
-      )
+      ),
     );
   }
 }
 
-class DetailsPage extends StatelessWidget with RoutePage {
+
+class RunningExercisePage extends StatelessWidget with RoutePage {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // reps, icon to start exericse, stop
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // IconButton(onPressed: ,
+            //     icon: Icon(Icons.pause_circle_outline, color: Colors.white, size: 24,))
             Text(
-              "Exercise Details",
+              "Bicep Curl",
               style: TextStyle(fontSize: 50),
             )
           ],
