@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../home_page.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 class LatDetailsPage extends StatefulWidget {
   @override
   _LatDetailsPageState createState() => _LatDetailsPageState();
@@ -189,9 +189,9 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
   Widget _buildLink(String text, String url) {
     return GestureDetector(
       onTap: () async {
-        if (await canLaunch(url)) {
-          await launch(url);
-        }
+        // if (await canLaunch(url)) {
+        //   await launch(url);
+        // }
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5.0),

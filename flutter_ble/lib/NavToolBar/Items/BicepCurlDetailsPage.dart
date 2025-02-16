@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../home_page.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 class DetailsPage extends StatefulWidget {
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -189,11 +189,11 @@ class _DetailsPageState extends State<DetailsPage> {
     return GestureDetector(
       onTap: () async {
         Uri uri = Uri.parse(url);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri, mode: LaunchMode.externalApplication); // Opens in Google Chrome
-        } else {
-          throw 'Could not launch $url';
-        }
+        // if (await canLaunchUrl(uri)) {
+        //   await launchUrl(uri, mode: LaunchMode.externalApplication); // Opens in Google Chrome
+        // } else {
+        //   throw 'Could not launch $url';
+        // }
       },
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
