@@ -180,9 +180,9 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
     return Column(
       children: [
 
-        _buildLink("Proper Bicep Curl Form", "https://www.youtube.com/watch?v=ykJmrZ5v0Oo"),
-        _buildLink("Common Bicep Curl Mistakes & Fixes", "https://www.youtube.com/watch?v=MeIiIdhvXT4"),
-        _buildLink("Best Science-Based Bicep Workouts", "https://www.strongerbyscience.com/biceps/"),
+        _buildLink("How to Master Lateral Raises: Form, Technique, & Benefits", "https://www.onepeloton.com/blog/lateral-raises"),
+        _buildLink("Stop Doing Lateral Raises Like This! (8 MISTAKES)", "https://www.youtube.com/watch?v=K5hFLVJnnsw"),
+        _buildLink("Lateral Raise", "https://www.youtube.com/watch?v=OuG1smZTsQQ"),
         _buildLink("Why Your Biceps Won't Grow", "https://www.muscleandstrength.com/articles/top-10-biceps-mistakes"),
       ],
     );
@@ -209,14 +209,16 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
               SizedBox(
                 width: 5,
               ),
-              Text(
-                text,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.white,
-                ),
+              Flexible(
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.white,
+                    ),
+                  ),
               ),
             ],
           )

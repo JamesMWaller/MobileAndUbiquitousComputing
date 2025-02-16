@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ble/NavToolBar/Items/Active_Activity_page.dart';
 import '../../home_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -45,7 +46,10 @@ class _DetailsPageState extends State<DetailsPage> {
                         ),
                       ),
                       SizedBox(width: 30),
-                      IconButton(onPressed:(){}, icon: Icon(Icons.play_circle, color: Colors.white, size: 40.0)),
+                      IconButton(onPressed:(){
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => RunningPage()));
+                      }, icon: Icon(Icons.play_circle, color: Colors.white, size: 40.0)),
                     ],
                   ),
                 ),

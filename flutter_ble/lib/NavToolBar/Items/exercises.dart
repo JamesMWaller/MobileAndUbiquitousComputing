@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:animated_appbar/animated_appbar.dart';
-import 'package:flutter_ble/NavToolBar/Items/LatRaisesDetailsPage.dart';
-import 'BicepCurlDetailsPage.dart';
+import 'package:flutter_ble/NavToolBar/Items/Lateral_Raises_Details_Page.dart';
+import 'Bicep_Curl_Details_Page.dart';
 
-class Exercises extends StatelessWidget with RoutePage {
+class Exercises extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +22,7 @@ class Exercises extends StatelessWidget with RoutePage {
 
           ),
           ExerciseCard(
-            title: "Lat Raises",
+            title: "Lateral Raises",
             goal: "10/10",
             image: ImgSample.get("dumbell_curl_photo.gif"),
             progress: 1.0,
@@ -39,27 +38,7 @@ class Exercises extends StatelessWidget with RoutePage {
 }
 
 
-class RunningExercisePage extends StatelessWidget with RoutePage {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // reps, icon to start exericse, stop
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // IconButton(onPressed: ,
-            //     icon: Icon(Icons.pause_circle_outline, color: Colors.white, size: 24,))
-            Text(
-              "Bicep Curl",
-              style: TextStyle(fontSize: 50),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
+
 
 class ExerciseCard extends StatelessWidget {
   final String title;
