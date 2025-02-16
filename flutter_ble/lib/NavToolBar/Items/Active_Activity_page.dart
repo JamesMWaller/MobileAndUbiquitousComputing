@@ -46,7 +46,11 @@ class _RunningExercisePage extends State<RunningPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text("Repititions", style: TextStyle(fontSize: 30)),
+            Text("0", style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
             Divider(),
+            SizedBox(height: 10),
             Text("Duration", style: TextStyle(fontSize: 30),),
             Text(
               formattedDuration(),
@@ -68,7 +72,7 @@ class _RunningExercisePage extends State<RunningPage> {
                   },
                   icon: toggle
                       ? Icon(Icons.pause_circle_outline, size: 50)
-                      : Icon(Icons.play_circle_outline, size: 50),
+                      : Icon(Icons.play_circle_outline, color: Colors.green, size: 50),
                 ),
                 IconButton(
                   onPressed: () {
@@ -76,7 +80,7 @@ class _RunningExercisePage extends State<RunningPage> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => DetailsPage()));
                   },
-                  icon: Icon(Icons.stop_circle_outlined, color: Colors.green, size: 50),
+                  icon: Icon(Icons.stop_circle_outlined, color: Colors.red, size: 50),
                 )
               ],
             ),
