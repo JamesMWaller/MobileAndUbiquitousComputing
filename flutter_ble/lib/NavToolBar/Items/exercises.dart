@@ -81,7 +81,7 @@ class ExerciseCard extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Card(
-        color: Colors.white,
+        // color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Padding(
@@ -100,7 +100,6 @@ class ExerciseCard extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .headlineMedium!
-                          .copyWith(color: Colors.grey[800]),
                     ),
                     SizedBox(height: 5),
                     Text(
@@ -108,7 +107,6 @@ class ExerciseCard extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge!
-                          .copyWith(color: Colors.grey[500]),
                     ),
                     SizedBox(height: 10),
                     LinearProgressIndicator(

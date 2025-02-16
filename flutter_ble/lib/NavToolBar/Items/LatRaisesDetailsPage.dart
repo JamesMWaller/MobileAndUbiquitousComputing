@@ -150,7 +150,8 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: Colors.black,
+                    color: Color.fromRGBO(255, 0, 266, 0.5),
+                    // color: Color(0xFFFF00FF),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   width: 400,
@@ -194,15 +195,31 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
         // }
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 5.0),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.blueAccent,
-            decoration: TextDecoration.underline,
-          ),
-        ),
+          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          child: Row(
+            children: [
+              Text(
+                '\u2022',
+                style: TextStyle(
+                    fontSize: 16,
+                    height: 1.55,
+                    color: Colors.white
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.white,
+                ),
+              ),
+            ],
+          )
       ),
     );
   }
