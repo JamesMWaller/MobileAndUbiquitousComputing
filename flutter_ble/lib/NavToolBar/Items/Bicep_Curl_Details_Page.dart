@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ble/NavToolBar/Items/Active_Activity_page.dart';
+import 'package:flutter_ble/NavToolBar/Items/exercises.dart';
 import '../../home_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 // import 'package:url_launcher/url_launcher.dart';
@@ -21,7 +22,16 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Bicep Curl Activity")),
+        appBar: AppBar(
+          title: Text("Bicep Curl Activity"),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Exercises()));
+            },
+          ),
+    ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
