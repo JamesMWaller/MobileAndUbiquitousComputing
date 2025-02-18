@@ -77,8 +77,7 @@ class _RunningExercisePage extends State<RunningPage> {
                 IconButton(
                   onPressed: () {
                     stopwatch.stop();
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => DetailsPage()));
+                    Navigator.pop(context);
                   },
                   icon: Icon(Icons.stop_circle_outlined, color: Colors.red, size: 50),
                 )
