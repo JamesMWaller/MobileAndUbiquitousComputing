@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ble/sign_up_page.dart';
 import 'NavToolBar/Items/exercises.dart';
 import 'Bluetooth/my_bluetooth_service.dart';
 import 'NavToolBar/Items/arduino_data_display.dart';
@@ -114,6 +115,17 @@ class _HomePageState extends State<HomePage> {
                     builder: (context) => ArduinoDataDisplay()));
               },
               child: const Text('Variables data'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                foregroundColor: Colors.white,
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SignUpPage()));
+              },
+              child: const Text('Sign Up'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
                 foregroundColor: Colors.white,

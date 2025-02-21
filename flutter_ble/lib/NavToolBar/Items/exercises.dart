@@ -107,6 +107,6 @@ class ExerciseCard extends StatelessWidget {
 
 class ImgSample {
   static String get(String imageName) {
-    return 'assets/$imageName';
+    return 'assets/images/$imageName';
   }
 }
