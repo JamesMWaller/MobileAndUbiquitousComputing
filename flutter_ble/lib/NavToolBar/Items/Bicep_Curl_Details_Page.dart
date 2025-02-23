@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ble/NavToolBar/Items/Active_Activity_page.dart';
+import 'package:flutter_ble/NavToolBar/Items/exercise_controlling_page.dart';
 import 'package:fl_chart/fl_chart.dart';
 // import 'package:url_launcher/url_launcher.dart';
 class DetailsPage extends StatefulWidget {
@@ -20,20 +20,29 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
         appBar: AppBar(
-          title: Text("Bicep Curl Activity"),
-    ),
-        body: SingleChildScrollView(
+          title: Text(
+            "Bicep Curl Activity",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
+          ),
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+      body: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 10),
+                SizedBox(height: 50),
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   width: 400,
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: Color(0xFFBFFF5A),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Row(
@@ -42,15 +51,15 @@ class _DetailsPageState extends State<DetailsPage> {
                         "Start recording your exercise",
                         style: TextStyle(
                           fontSize: 21,
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(width: 30),
                       IconButton(onPressed:(){
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RunningPage()));
-                      }, icon: Icon(Icons.play_circle, color: Colors.white, size: 40.0)),
+                            builder: (context) => ExercisePage()));
+                      }, icon: Icon(Icons.play_circle, color: Colors.black, size: 40.0)),
                     ],
                   ),
                 ),
@@ -59,7 +68,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   padding: const EdgeInsets.all(16.0),
                   width: 400.0,
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Color(0xFF23232C),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Column(
@@ -90,12 +99,12 @@ class _DetailsPageState extends State<DetailsPage> {
                           backgroundColor: MaterialStateProperty.resolveWith(
                                 (states) => states.contains(MaterialState.selected)
                                 ? Colors.white
-                                : Colors.green.shade700,
+                                : Color(0xFFBFFF5A),
                           ),
                           foregroundColor: MaterialStateProperty.resolveWith(
                                 (states) => states.contains(MaterialState.selected)
-                                ? Colors.green
-                                : Colors.white,
+                                ? Colors.black
+                                : Colors.black,
                           ),
                         ),
                       ),
@@ -119,7 +128,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           padding: const EdgeInsets.all(16.0),
                           width: 400,
                           decoration: BoxDecoration(
-                            color: Colors.orange,
+                            color: Color(0xFFBFFF5A),
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: Column(
@@ -129,7 +138,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 "Useful Tip- Swipe",
                                 style: TextStyle(
                                   fontSize: 25,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -139,7 +148,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
@@ -155,8 +164,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 0, 266, 0.5),
-                    // color: Color(0xFFFF00FF),
+                    color: Color(0xFFBFFF5A),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   width: 400,
@@ -165,7 +173,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       Text('Additional Links',
                         style: TextStyle(
                           fontSize: 25,
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
@@ -209,7 +217,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 style: TextStyle(
                     fontSize: 16,
                     height: 1.55,
-                    color: Colors.white
+                    color: Colors.black
                 ),
               ),
               SizedBox(
@@ -219,9 +227,9 @@ class _DetailsPageState extends State<DetailsPage> {
                 text,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white,
+                  color: Colors.black,
                   decoration: TextDecoration.underline,
-                  decorationColor: Colors.white,
+                  decorationColor: Colors.black,
                 ),
               ),
             ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter_ble/NavToolBar/Items/Active_Activity_page.dart';
+import 'package:flutter_ble/NavToolBar/Items/exercise_controlling_page.dart';
 // import 'package:url_launcher/url_launcher.dart';
 class LatDetailsPage extends StatefulWidget {
   @override
@@ -48,7 +48,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                       SizedBox(width: 30),
                       IconButton(onPressed:(){
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RunningPage()));
+                            builder: (context) => ExercisePage()));
                       }, icon: Icon(Icons.play_circle, color: Colors.white, size: 40.0)),
                     ],
                   ),

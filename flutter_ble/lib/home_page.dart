@@ -57,7 +57,9 @@ class _HomePageState extends State<HomePage> {
       _errorMessage = null;  // 로그인 시 오류 메시지 초기화
     });
 
-    if (username == "admin" && password == "password") {
+    //username == "admin" && password == "password"
+
+    if (username.isEmpty) {
       Future.delayed(Duration.zero, () {
         Navigator.of(context, rootNavigator: true).pushReplacement(
           MaterialPageRoute(builder: (context) => BottomNavBar()),
