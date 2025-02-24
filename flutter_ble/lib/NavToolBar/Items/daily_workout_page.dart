@@ -5,14 +5,14 @@ class DailyWorkoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green, // Set the background color to green
+        backgroundColor: Color(0xFFBFFF5A), // Set the background color to green
         title: GestureDetector(
           onTap: () => Navigator.of(context).pop(),
           child: Container(
             child: Row(
               children: [
                 SizedBox(width: 10),
-                Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.white), // Thin iOS-style back button
+                Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black), // Thin iOS-style back button
                 SizedBox(width: 5),
                 Text(
                   "Exercises",
@@ -20,7 +20,7 @@ class DailyWorkoutPage extends StatelessWidget {
                     fontFamily: "SFPro",
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color:  Colors.white,
+                    color:  Colors.black,
                   ),
                 ),
               ],
@@ -35,7 +35,7 @@ class DailyWorkoutPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            color: Colors.green, // Green background color
+            color: Color(0xFFBFFF5A), // Green background color
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +45,7 @@ class DailyWorkoutPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white, // White text color for better contrast
+                    color: Colors.black, // White text color for better contrast
                   ),
                 ),
                 SizedBox(height: 16),
@@ -55,12 +55,12 @@ class DailyWorkoutPage extends StatelessWidget {
                     for (String day in ['S', 'M', 'T', 'W', 'T', 'F', 'S'])
                       Column(
                         children: [
-                          Text(day, style: TextStyle(color: Colors.white)),
+                          Text(day, style: TextStyle(color: Colors.black)),
                           // Example highlight for the current day
                           if (day == 'M')
                             Icon(
                               Icons.check_circle,
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                         ],
                       ),
@@ -77,13 +77,13 @@ class DailyWorkoutPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: ListView(
                   children: [
-                    _buildExerciseTile('V-sit', '30 Sec'),
-                    _buildExerciseTile('Crossover Crunch', 'x15'),
+                    _buildExerciseTile('Bicep Curls', 'x10'),
+                    // _buildExerciseTile('Crossover Crunch', 'x15'),
                     _buildExerciseTile('REST', ''),
-                    _buildExerciseTile('Crunch', 'x20'),
-                    _buildExerciseTile('Flutter Kick', 'x30'),
+                    // _buildExerciseTile('Crunch', 'x20'),
+                    _buildExerciseTile('Lateral Raises', 'x10'),
                     _buildExerciseTile('REST', ''),
-                    _buildExerciseTile('Heel Touch', ''),
+                    // _buildExerciseTile('Heel Touch', ''),
                   ],
                 ),
               ),

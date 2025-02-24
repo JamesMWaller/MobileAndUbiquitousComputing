@@ -54,39 +54,70 @@ class MuscleGroupsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Currently creating a routine for Intermediates, using no equipment. Tap to change.',
+              'Select Your Workout Muscle Group',
+              style: TextStyle(
+                fontFamily: "SFPro",
+                color: Theme.of(context).brightness == Brightness.dark ? Color(0xFFBFFF5A) : Colors.black,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Select a workout category to see general exercises for that region of the body. Alternatively, you can choose a specific muscle group for targeted exercises."',
               style: TextStyle(color: Colors.grey),
             ),
             SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[800],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey[800],
+                    ),
+                    child: Text('Full Body', style: TextStyle(color: Colors.white)),
                   ),
-                  child: Text('Full Body', style: TextStyle(color: Colors.white)),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey[800],
+                  SizedBox(width: 8), // Add space between buttons
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey[800],
+                    ),
+                    child: Text('Upper Body', style: TextStyle(color: Colors.white)),
                   ),
-                  child: Text('Upper Body', style: TextStyle(color: Colors.white)),
-                ),
-              ],
+                  SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey[800],
+                    ),
+                    child: Text('Core', style: TextStyle(color: Colors.white)),
+                  ),
+                  SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey[800],
+                    ),
+                    child: Text('Lower Body', style: TextStyle(color: Colors.white)),
+                  ),
+                ],
+              ),
             ),
+
             SizedBox(height: 20),
             Expanded(
               child: ListView(
                 children: [
-                  MuscleGroupButton('Abdominal', Color(0xFFBFFF5A)),
-                  MuscleGroupButton('Back', Colors.grey.shade800),
+                  MuscleGroupButton('Abdominal Muscles', Color(0xFFBFFF5A)),
                   MuscleGroupButton('Biceps', Color(0xFFBFFF5A)),
+                  MuscleGroupButton('Hamstrings', Colors.grey.shade800),
                   MuscleGroupButton('Lateral Muscles', Colors.grey.shade800),
                   MuscleGroupButton('Pectoral Muscles', Colors.grey.shade800),
-                  MuscleGroupButton('Hamstrings', Colors.grey.shade800),
+                  MuscleGroupButton('Trapezius  Muscle', Colors.grey.shade800),
+                  MuscleGroupButton('Quadriceps ', Colors.grey.shade800)
                   // Add more muscle groups as needed
                 ],
               ),
