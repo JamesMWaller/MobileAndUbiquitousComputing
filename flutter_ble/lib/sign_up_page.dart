@@ -93,13 +93,13 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Row(
                 children:  [
                   SizedBox(width: 10),
-                  Icon(Icons.arrow_back_ios_new, color: Colors.green, size: 20), // Thin iOS-style back button
+                  Icon(Icons.arrow_back_ios_new, color: Color(0xFFBFFF5A), size: 20), // Thin iOS-style back button
                   SizedBox(width: 5),
                   Text(
                     "Sign in",
                     style: TextStyle(
                       fontFamily: "SFPro",
-                      color: Colors.green,
+                      color: Color(0xFFBFFF5A),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -139,9 +139,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _emailController,
                       decoration: InputDecoration(
                         labelText: "Email",
-                        floatingLabelStyle: TextStyle(color: Colors.green),
+                        floatingLabelStyle: TextStyle(color: Color(0xFFBFFF5A)),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
+                          borderSide: BorderSide(color: Color(0xFFBFFF5A)),
                         ),
                       ),
                       keyboardType: TextInputType.emailAddress,
@@ -153,9 +153,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _passwordController,
                       decoration: InputDecoration(
                         labelText: "Password",
-                        floatingLabelStyle: TextStyle(color: Colors.green),
+                        floatingLabelStyle: TextStyle(color: Color(0xFFBFFF5A)),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
+                          borderSide: BorderSide(color: Color(0xFFBFFF5A)),
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -175,9 +175,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       controller: _confirmPasswordController,
                       decoration: InputDecoration(
                         labelText: "Confirm Password",
-                        floatingLabelStyle: TextStyle(color: Colors.green),
+                        floatingLabelStyle: TextStyle(color: Color(0xFFBFFF5A)),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
+                          borderSide: BorderSide(color: Color(0xFFBFFF5A)),
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
@@ -197,13 +197,13 @@ class _SignUpPageState extends State<SignUpPage> {
                     ElevatedButton(
                       onPressed: _signUp,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green, // Set the background color to green
+                        backgroundColor: Color(0xFFBFFF5A), // Set the background color to green
                       ),
                         child: Container(
                         width: 250,
                         child: Center(
                           child: Text("Sign Up", style: TextStyle(
-                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, // Adaptive text color
+                            color: Colors.black,
                             ),
                           ),
 

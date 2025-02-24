@@ -35,13 +35,7 @@ class Exercises extends StatelessWidget  {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(width: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => DailyWorkoutPage()));
-              },
-              child: Text('Set Today\'s Daily Workout'),
-            ),
+
             Container(
               padding: EdgeInsets.all(15),
               // height: 70,
@@ -61,19 +55,19 @@ class Exercises extends StatelessWidget  {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide(
-                      color: Colors.green,
+                      color: Color(0xFFBFFF5A),
                       width: 2.0,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide(
-                      color: Colors.green,
+                      color: Color(0xFFBFFF5A),
                       width: 2.0,
                     ),
                   ),
                 ),
-                cursorColor: Colors.green,
+                cursorColor: Color(0xFFBFFF5A),
                 style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, // Change input text color based on theme
                 ),
@@ -111,157 +105,220 @@ class Exercises extends StatelessWidget  {
                     builder: (context) => LatDetailsPage()));
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0), // Adjust the padding value as needed
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('More Exercises',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 15.0), // Adjust the padding value as needed
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Text('More Exercises',
+            //         style: TextStyle(
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.w600,
+            //         ),
+            //       ),
+            //       GestureDetector(
+            //         onTap: (){
+            //           Navigator.push(
+            //               context,
+            //               MaterialPageRoute(builder: (context) => MuscleGroupsScreen()),
+            //           );
+            //         },
+            //         child: Text('See all',
+            //           style: TextStyle(
+            //             color: Color(0xFFBFFF5A),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            Padding(padding: EdgeInsets.symmetric(horizontal: 15.0),
+              child: Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFBFFF5A), // Set the background color to green
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0), // Adjust this value to change the roundness
                     ),
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MuscleGroupsScreen()),
-                      );
-                    },
-                    child: Text('See all',
-                      style: TextStyle(
-                        color: Colors.green,
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => DailyWorkoutPage(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    // width: 250,
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        'Set Today\'s Daily Workout',
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
             ),
-            SizedBox(height: 10),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+            SizedBox(height: 20),
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Row(
-                children: [
-                  Container(
-                    width: 125,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: Offset(0, 4), // changes the position of the shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(ImgSample.get("Abdominal_Muscles.png"), width: 100, height: 100, fit: BoxFit.contain,),
-                          // fit:  BoxFit.cover,
-                        Text(
-                          'Abs',
-                          style: TextStyle(color: Colors.green, fontSize: 18),
-                        ),
-                      ],
+              child: Center(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFFBFFF5A),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  const SizedBox(width: 10), // Add spacing between containers
-                  Container(
-                    width: 125,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: Offset(0, 4), // changes the position of the shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(ImgSample.get("Hamstrings_Muscle.png"), width: 100, height: 100, fit: BoxFit.contain),
-                        // fit:  BoxFit.cover,
-                        Text(
-                          'Hamstring',
-                          style: TextStyle(color: Colors.green, fontSize: 18),
-                        ),
-                      ],
+                  onPressed: () {
+                    // Navigate to the page with more exercises or muscle groups
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MuscleGroupsScreen()),
+                    );
+                  },
+                  child: Container(
+                    // width: double.infinity,  // Set the width to double.infinity
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        'View More Exercises',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 10), // Add spacing between containers
-                  Container(
-                    width: 125,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: Offset(0, 4), // changes the position of the shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(ImgSample.get("Bicep_Muscle.png"), width: 100, height: 100, fit: BoxFit.contain),
-                        // fit:  BoxFit.cover,
-                        Text(
-                          'Biceps',
-                          style: TextStyle(color: Colors.green, fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    width: 125,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.25),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: Offset(0, 4), // changes the position of the shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(ImgSample.get("Pectoral_Muscle.png"), width: 100, height: 100, fit: BoxFit.contain),
-                        // fit:  BoxFit.cover,
-                        Text(
-                          'Pectoral',
-                          style: TextStyle(color: Colors.green, fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-            const SizedBox(height: 10),
+
+            //       SingleChildScrollView(
+      //         scrollDirection: Axis.horizontal,
+      //         padding: EdgeInsets.symmetric(horizontal: 15),
+      //         child: Row(
+      //           children: [
+      //             Container(
+      //               width: 125,
+      //               height: 150,
+      //               decoration: BoxDecoration(
+      //                 borderRadius: BorderRadius.circular(12),
+      //                 color: Colors.black,
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     color:Colors.white.withOpacity(0.25),
+      //                     spreadRadius: 1,
+      //                     blurRadius: 8,
+      //                     offset: Offset(0, 4), // changes the position of the shadow
+      //                   ),
+      //                 ],
+      //               ),
+      //               child: Column(
+      //                 mainAxisAlignment: MainAxisAlignment.center,
+      //                 children: [
+      //                   Image.asset(ImgSample.get("Abdominal_Muscles.png"), width: 100, height: 100, fit: BoxFit.contain,),
+      //                   Text(
+      //                     'Abs',
+      //                     style: TextStyle(
+      //                         color: Color(0xFFBFFF5A),
+      //                         fontSize: 18
+      //                     ),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //
+      //             const SizedBox(width: 10), // Add spacing between containers
+      //             Container(
+      //               width: 125,
+      //               height: 150,
+      //               decoration: BoxDecoration(
+      //                 borderRadius: BorderRadius.circular(12),
+      //                 color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withOpacity(0.25) : Colors.black.withOpacity(0.25),
+      //                     spreadRadius: 1,
+      //                     blurRadius: 8,
+      //                     offset: Offset(0, 4), // changes the position of the shadow
+      //                   ),
+      //                 ],
+      //               ),
+      //               child: Column(
+      //                 mainAxisAlignment: MainAxisAlignment.center,
+      //                 children: [
+      //                   Image.asset(ImgSample.get("Hamstrings_Muscle.png"), width: 100, height: 100, fit: BoxFit.contain),
+      //                   // fit:  BoxFit.cover,
+      //                   Text(
+      //                     'Hamstring',
+      //                     style: TextStyle(color: Color(0xFFBFFF5A), fontSize: 18),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //             const SizedBox(width: 10), // Add spacing between containers
+      //             Container(
+      //               width: 125,
+      //               height: 150,
+      //               decoration: BoxDecoration(
+      //                 borderRadius: BorderRadius.circular(12),
+      //                 color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withOpacity(0.25) : Colors.black.withOpacity(0.25),
+      //                     spreadRadius: 1,
+      //                     blurRadius: 8,
+      //                     offset: Offset(0, 4), // changes the position of the shadow
+      //                   ),
+      //                 ],
+      //               ),
+      //               child: Column(
+      //                 mainAxisAlignment: MainAxisAlignment.center,
+      //                 children: [
+      //                   Image.asset(ImgSample.get("Bicep_Muscle.png"), width: 100, height: 100, fit: BoxFit.contain),
+      //                   // fit:  BoxFit.cover,
+      //                   Text(
+      //                     'Biceps',
+      //                     style: TextStyle(color: Color(0xFFBFFF5A), fontSize: 18),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //             const SizedBox(width: 10),
+      //             Container(
+      //               width: 125,
+      //               height: 150,
+      //               decoration: BoxDecoration(
+      //                 borderRadius: BorderRadius.circular(12),
+      //                 color: Theme.of(context).brightness == Brightness.dark ? Colors.black : Colors.white,
+      //                 boxShadow: [
+      //                   BoxShadow(
+      //                     color: Theme.of(context).brightness == Brightness.dark ? Colors.white.withOpacity(0.25) : Colors.black.withOpacity(0.25),
+      //                     spreadRadius: 1,
+      //                     blurRadius: 8,
+      //                     offset: Offset(0, 4), // changes the position of the shadow
+      //                   ),
+      //                 ],
+      //               ),
+      //               child: Column(
+      //                 mainAxisAlignment: MainAxisAlignment.center,
+      //                 children: [
+      //                   Image.asset(ImgSample.get("Pectoral_Muscle.png"), width: 100, height: 100, fit: BoxFit.contain),
+      //                   // fit:  BoxFit.cover,
+      //                   Text(
+      //                     'Pectoral',
+      //                     style: TextStyle(color: Color(0xFFBFFF5A), fontSize: 18),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //       const SizedBox(height: 10),
           ],
         ),
-      )
+      ),
     );
   }
 }
@@ -346,7 +403,7 @@ class ExerciseCard extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: progress,
                   backgroundColor: Colors.grey[300],
-                  color: Colors.green,
+                  color: Color(0xFFBFFF5A),
                   minHeight: 8.0,
                 ),
               ),

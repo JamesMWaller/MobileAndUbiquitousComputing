@@ -24,17 +24,22 @@ class MuscleGroupsScreen extends StatelessWidget {
               child: Row(
                 children:  [
                   SizedBox(width: 10),
-                  Icon(Icons.arrow_back_ios_new, color: Colors.green, size: 20), // Thin iOS-style back button
+                  Icon(
+                    Icons.arrow_back_ios_new,
+                    color: Theme.of(context).brightness == Brightness.dark ? Color(0xFFBFFF5A) : Colors.black,
+                    size: 20,
+                  ), // Thin iOS-style back button
                   SizedBox(width: 5),
                   Text(
                     "Exercises",
                     style: TextStyle(
                       fontFamily: "SFPro",
-                      color: Colors.green,
+                      color: Theme.of(context).brightness == Brightness.dark ? Color(0xFFBFFF5A) : Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                 ],
               ),
             )
@@ -76,9 +81,9 @@ class MuscleGroupsScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  MuscleGroupButton('Abdominal', Colors.green),
+                  MuscleGroupButton('Abdominal', Color(0xFFBFFF5A)),
                   MuscleGroupButton('Back', Colors.grey.shade800),
-                  MuscleGroupButton('Biceps', Colors.green),
+                  MuscleGroupButton('Biceps', Color(0xFFBFFF5A)),
                   MuscleGroupButton('Lateral Muscles', Colors.grey.shade800),
                   MuscleGroupButton('Pectoral Muscles', Colors.grey.shade800),
                   MuscleGroupButton('Hamstrings', Colors.grey.shade800),
@@ -101,6 +106,9 @@ class MuscleGroupButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determine the text color based on the button color
+    Color textColor = (color == Color(0xFFBFFF5A)) ? Colors.black : Colors.white;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton(
@@ -116,7 +124,7 @@ class MuscleGroupButton extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(title, style: TextStyle(color: Colors.white, fontSize: 18)),
+            child: Text(title, style: TextStyle(color: textColor, fontSize: 18)),
           ),
         ),
       ),
