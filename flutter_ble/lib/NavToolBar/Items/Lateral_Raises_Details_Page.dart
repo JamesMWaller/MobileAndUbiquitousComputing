@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_ble/NavToolBar/Items/exercise_controlling_page.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 class LatDetailsPage extends StatefulWidget {
   @override
   _LatDetailsPageState createState() => _LatDetailsPageState();
@@ -30,33 +30,37 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                 SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.all(16.0),
-                  width: 400,
+                  width: MediaQuery.of(context).size.width, // Adjust this value as needed
                   decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // This will place items on opposite sides
                     children: [
                       Text(
-                        "Start recording your exercise",
+                        "Start recording exercise",
                         style: TextStyle(
                           fontSize: 21,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 30),
-                      IconButton(onPressed:(){
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ExercisePage()));
-                      }, icon: Icon(Icons.play_circle, color: Colors.white, size: 40.0)),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ExercisePage()));
+                        },
+                        icon: Icon(Icons.play_circle, color: Colors.white, size: 40.0),
+                      ),
                     ],
                   ),
                 ),
+
                 SizedBox(height: 30),
                 Container(
                   padding: const EdgeInsets.all(16.0),
-                  width: 400.0,
+                  width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.green,
                     borderRadius: BorderRadius.circular(12.0),
@@ -116,7 +120,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0), // Adds spacing between cards
                         child: Container(
                           padding: const EdgeInsets.all(16.0),
-                          width: 400,
+                          width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             color: Colors.orange,
                             borderRadius: BorderRadius.circular(12.0),
@@ -158,7 +162,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                     // color: Color(0xFFFF00FF),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
-                  width: 400,
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: [
                       Text('Additional Links',
@@ -194,9 +198,9 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
   Widget _buildLink(String text, String url) {
     return GestureDetector(
       onTap: () async {
-        // if (await canLaunch(url)) {
-        //   await launch(url);
-        // }
+        if (await canLaunch(url)) {
+          await launch(url);
+        }
       },
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ble/home_page.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'NavToolBar/bottom_nav_bar.dart';
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -25,6 +26,21 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
+  void _navigateToExercises() {
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 600), // Increased duration
+        pageBuilder: (context, animation, secondaryAnimation) => BottomNavBar(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
   void _showProfilePictureDialog() {
     showDialog(
       context: context,
@@ -45,7 +61,9 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: (){
+               _navigateToExercises();
+            },
             child: Text("Done"),
           )
         ],
@@ -80,6 +98,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Text(
                     "Sign in",
                     style: TextStyle(
+                      fontFamily: "SFPro",
                       color: Colors.green,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -174,10 +193,22 @@ class _SignUpPageState extends State<SignUpPage> {
                       obscureText: _obscureConfirmPassword,
                       validator: (value) => value!.isEmpty ? "Confirm your password" : null,
                     ),
-                    SizedBox(height: 70),
+                    SizedBox(height: 55),
                     ElevatedButton(
                       onPressed: _signUp,
-                      child: Text("Sign Up", style: TextStyle( color: Colors.green)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green, // Set the background color to green
+                      ),
+                        child: Container(
+                        width: 250,
+                        child: Center(
+                          child: Text("Sign Up", style: TextStyle(
+                            color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black, // Adaptive text color
+                            ),
+                          ),
+
+                        ),
+                      ),
                     ),
                   ],
                 ),
