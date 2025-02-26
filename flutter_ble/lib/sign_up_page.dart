@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ble/home_page.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'NavToolBar/bottom_nav_bar.dart';
+
 class SignUpPage extends StatefulWidget {
   @override
   _SignUpPageState createState() => _SignUpPageState();
@@ -25,34 +27,6 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  void _showProfilePictureDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Add Profile Picture"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _profileImage != null
-                ? Image.file(_profileImage!, height: 100)
-                : Icon(Icons.account_circle, size: 100, color: Colors.grey),
-            SizedBox(height: 10),
-            TextButton(
-              onPressed: _pickImage,
-              child: Text("Choose from Gallery"),
-            )
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Done"),
-          )
-        ],
-      ),
-    );
-  }
-
   void _signUp() {
     if (_formKey.currentState!.validate()) {
       if (_passwordController.text != _confirmPasswordController.text) {
@@ -61,7 +35,9 @@ class _SignUpPageState extends State<SignUpPage> {
         );
         return;
       }
-      _showProfilePictureDialog();
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => BottomNavBar()),
+      );
     }
   }
 
@@ -75,12 +51,13 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Row(
                 children:  [
                   SizedBox(width: 10),
-                  Icon(Icons.arrow_back_ios_new, color: Colors.green, size: 20), // Thin iOS-style back button
+                  Icon(Icons.arrow_back_ios_new, color: Color(0xFFBFFF5A), size: 20), // Thin iOS-style back button
                   SizedBox(width: 5),
                   Text(
                     "Sign in",
                     style: TextStyle(
-                      color: Colors.green,
+                      fontFamily: "SFPro",
+                      color: Color(0xFFBFFF5A),
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -93,99 +70,125 @@ class _SignUpPageState extends State<SignUpPage> {
         centerTitle: false,
         automaticallyImplyLeading: false,
       ),
+
       body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Sign Up',
-              style: TextStyle(
-                fontSize: 24,
-                fontFamily: 'SFPro',
-                fontWeight: FontWeight.w700,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              Text(
+                "Hello! Register to get started",
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
               ),
-            ),
-            Form(
-              key: _formKey,
-              child: Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  // color: Colors.lightGreen,
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
+              SizedBox(height: 20),
+              Form(
+                key: _formKey,
                 child: Column(
                   children: [
-                    SizedBox(height: 50),
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
                         labelText: "Email",
-                        floatingLabelStyle: TextStyle(color: Colors.green),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        ),
+                        border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.emailAddress,
                       validator: (value) =>
-                          value!.isEmpty || !value.contains("@") ? "Enter a valid email" : null,
+                      value!.isEmpty || !value.contains("@") ? "Enter a valid email" : null,
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 10),
                     TextFormField(
                       controller: _passwordController,
                       decoration: InputDecoration(
                         labelText: "Password",
-                        floatingLabelStyle: TextStyle(color: Colors.green),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        ),
+                        border: OutlineInputBorder(),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
                           ),
                           onPressed: () {
                             setState(() {
                               _obscurePassword = !_obscurePassword;
-                            });},
+                            });
+                          },
                         ),
                       ),
                       obscureText: _obscurePassword,
                       validator: (value) => value!.length < 6 ? "Password must be at least 6 characters" : null,
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: 10),
                     TextFormField(
                       controller: _confirmPasswordController,
                       decoration: InputDecoration(
                         labelText: "Confirm Password",
-                        floatingLabelStyle: TextStyle(color: Colors.green),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        ),
+                        border: OutlineInputBorder(),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
+                            _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
                           ),
                           onPressed: () {
                             setState(() {
                               _obscureConfirmPassword = !_obscureConfirmPassword;
                             });
-                            },
+                          },
                         ),
                       ),
                       obscureText: _obscureConfirmPassword,
                       validator: (value) => value!.isEmpty ? "Confirm your password" : null,
                     ),
-                    SizedBox(height: 70),
+                    SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _signUp,
-                      child: Text("Sign Up", style: TextStyle( color: Colors.green)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFBFFF5A),
+                        foregroundColor: Colors.black,
+                        minimumSize: Size(double.infinity, 50),
+                      ),
+                      child: Text("Register"),
+                    ),
+                    SizedBox(height: 20),
+                    Center(child: Text("Or Register with")),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.facebook, color: Colors.blue, size: 40),
+                          onPressed: () {},
+                        ),
+                        SizedBox(width: 20),
+                        IconButton(
+                          icon: Image.network(
+                            'http://pngimg.com/uploads/google/google_PNG19635.png',
+                            fit: BoxFit.cover,
+                            height: 40,
+                          ),
+                          onPressed: () {},
+                        ),
+                        SizedBox(width: 20),
+                        IconButton(
+                          icon: Icon(Icons.apple, color: Colors.black, size: 40),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Center(
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Already have an account? Login Now",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-
-          ],
-        )
+            ],
+          ),
+        ),
       ),
     );
   }

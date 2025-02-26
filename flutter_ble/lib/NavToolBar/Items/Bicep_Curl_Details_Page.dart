@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ble/NavToolBar/Items/exercise_controlling_page.dart';
 import 'package:fl_chart/fl_chart.dart';
-// import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 class DetailsPage extends StatefulWidget {
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -20,7 +20,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: Text(
             "Bicep Curl Activity",
@@ -32,7 +32,7 @@ class _DetailsPageState extends State<DetailsPage> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -46,27 +46,30 @@ class _DetailsPageState extends State<DetailsPage> {
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // This will place items on opposite sides
                     children: [
                       Text(
-                        "Start recording your exercise",
+                        "Start recording exercise",
                         style: TextStyle(
                           fontSize: 21,
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(width: 30),
-                      IconButton(onPressed:(){
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ExercisePage()));
-                      }, icon: Icon(Icons.play_circle, color: Colors.black, size: 40.0)),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ExercisePage()));
+                        },
+                        icon: Icon(Icons.play_circle, color: Colors.black, size: 40.0),
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(height: 30),
                 Container(
                   padding: const EdgeInsets.all(16.0),
-                  width: 400.0,
+                  width: 400,
                   decoration: BoxDecoration(
                     color: Color(0xFF23232C),
                     borderRadius: BorderRadius.circular(12.0),
@@ -198,45 +201,49 @@ class _DetailsPageState extends State<DetailsPage> {
       ],
     );
   }
+
   Widget _buildLink(String text, String url) {
     return GestureDetector(
       onTap: () async {
         Uri uri = Uri.parse(url);
-        // if (await canLaunchUrl(uri)) {
-        //   await launchUrl(uri, mode: LaunchMode.externalApplication); // Opens in Google Chrome
-        // } else {
-        //   throw 'Could not launch $url';
-        // }
+        if (await canLaunchUrl(uri)) {
+          bool launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+          if (!launched) {
+            debugPrint('Failed to launch $url');
+          }
+        } else {
+          debugPrint('Could not launch $url');
+        }
       },
       child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
-          child: Row(
-            children: [
-              Text(
-                '\u2022',
-                style: TextStyle(
-                    fontSize: 16,
-                    height: 1.55,
-                    color: Colors.black
-                ),
+        padding: const EdgeInsets.symmetric(vertical: 5.0),
+        child: Row(
+          children: [
+            Text(
+              '\u2022',
+              style: TextStyle(
+                fontSize: 16,
+                height: 1.55,
+                color: Colors.black
               ),
-              SizedBox(
-                width: 5,
+            ),
+            SizedBox(width: 5),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.black,
               ),
-              Text(
-                text,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Colors.black,
-                ),
-              ),
-            ],
-          )
+            ),
+          ],
+        ),
       ),
     );
   }
+
+
   Widget _buildGraph(String timeFrame) {
     List<int> data = _getDataForTimeFrame(timeFrame);
 

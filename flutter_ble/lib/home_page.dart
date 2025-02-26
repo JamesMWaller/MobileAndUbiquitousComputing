@@ -57,8 +57,6 @@ class _HomePageState extends State<HomePage> {
       _errorMessage = null;
     });
 
-    //username == "admin" && password == "password"
-
     if (username.isEmpty) {
       Future.delayed(Duration.zero, () {
         Navigator.of(context, rootNavigator: true).pushReplacement(
@@ -72,119 +70,125 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: GestureDetector(
+            onTap: () => Navigator.of(context).pop(),
+            child: Row(
+              children: [
+                SizedBox(width: 10),
+                Icon(Icons.arrow_back_ios_new, color: Color(0xFFBFFF5A), size: 20),
+                SizedBox(width: 5),
+                Text(
+                  "Sign in",
+                  style: TextStyle(
+                    fontFamily: "SFPro",
+                    color: Color(0xFFBFFF5A),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            )),
+        toolbarHeight: 44,
+        centerTitle: false,
         automaticallyImplyLeading: false,
-        title: const Text(
-          'GYM HELPER',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-            letterSpacing: 1.5,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 4,
-        shadowColor: Colors.black,
-        backgroundColor: Color(0xFFBFFF5A),
       ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 100,
+        child: SingleChildScrollView( // 🛠️ 스크롤 가능하도록 변경
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // 정렬 조정
+              children: [
+                SizedBox(height: 20),
+                Text(
+                  "Welcome back! Glad to see you, Again!",
+                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                TextField(
+                  controller: _usernameController,
+                  focusNode: _idFocusNode,
+                  decoration: InputDecoration(
+                    labelText: 'Enter your email',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                ),
+                SizedBox(height: 10),
+                TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Enter your password',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.visibility_off),
+                  ),
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
+                ),
+                SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "Forgot Password?",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFBFFF5A),
-                    child: Icon(
-                      Icons.fitness_center_rounded,
-                      size: 150,
-                      color: Colors.white,
-                    ),
+                    foregroundColor: Colors.black,
+                    minimumSize: Size(double.infinity, 50),
                   ),
-                  SizedBox(height: 20),
-                  if (_errorMessage != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        _errorMessage!,
-                        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                  child: Text('Login'),
+                ),
+                SizedBox(height: 10),
+                Center(child: Text("Or Login with")),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.facebook, color: Colors.blue, size: 40),
+                      onPressed: () {},
+                    ),
+                    SizedBox(width: 20),
+                    IconButton(
+                      icon: Image.network(
+                        'http://pngimg.com/uploads/google/google_PNG19635.png',
+                        fit: BoxFit.cover,
+                        height: 40,
                       ),
+                      onPressed: () {},
                     ),
-                  TextField(
-                    controller: _usernameController,
-                    focusNode: _idFocusNode,
-                    decoration: InputDecoration(labelText: 'ID or Email'),
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    textInputAction: TextInputAction.done,
-                  ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _login,
-                    child: const Text('Login'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFFBFFF5A),
-                      foregroundColor: Colors.black,
+                    SizedBox(width: 20),
+                    IconButton(
+                      icon: Icon(Icons.apple, color: Colors.black, size: 40),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Center(
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Don't have an account? Register Now",
+                      style: TextStyle(color: Colors.blue),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SignUpPage()));
-                      },
-                      child: Text(
-                        'Don\'t have an account? Sign up here',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ArduinoDataDisplay()));
-                      },
-                      child: Text(
-                        'Variables data',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -192,6 +196,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
 
 
 

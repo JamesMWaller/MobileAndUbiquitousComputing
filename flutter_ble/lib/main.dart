@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ble/welcomepage.dart';
 import 'package:provider/provider.dart';
 import 'home_page.dart';
 import 'NavToolBar/Items/settings.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: HomePage(),
+      home: WelcomeScreen(),
     );
   }
 }
