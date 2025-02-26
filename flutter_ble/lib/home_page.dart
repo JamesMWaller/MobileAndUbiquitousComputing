@@ -100,11 +100,11 @@ class _HomePageState extends State<HomePage> {
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: SingleChildScrollView( // 🛠️ 스크롤 가능하도록 변경
+        child: SingleChildScrollView( 
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // 정렬 조정
+              crossAxisAlignment: CrossAxisAlignment.start, 
               children: [
                 SizedBox(height: 20),
                 Text(
