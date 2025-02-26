@@ -5,6 +5,7 @@ import 'Bluetooth/my_bluetooth_service.dart';
 import 'NavToolBar/Items/arduino_data_display.dart';
 import 'NavToolBar/bottom_nav_bar.dart';
 
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -192,7 +193,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-
-

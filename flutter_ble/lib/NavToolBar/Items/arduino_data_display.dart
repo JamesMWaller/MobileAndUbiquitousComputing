@@ -10,37 +10,24 @@ class ArduinoDataDisplay extends StatefulWidget {
 
 class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
   final MyBluetoothService _bluetoothService = MyBluetoothService();
-
-  double x = 0.0;
-  double y = 0.0;
-  double z = 0.0;
+  int gestureValue = 0;
 
   @override
   void initState() {
     super.initState();
     _bluetoothService.connectToDevice().then((connected) {
       if (connected) {
-        _updateSensorData();
+        _updateGestureData();
       }
     });
   }
 
-  Future<void> _updateSensorData() async {
+  Future<void> _updateGestureData() async {
     while (mounted) {
-      // Read the gravity direction (even if you don't need to set it here)
-      String gravityDirection = await _bluetoothService.getGravityDirection();
-
-      // Read raw data from characteristics
-      var xRaw = await _bluetoothService.xCharacteristic?.read() ?? [0];
-      var yRaw = await _bluetoothService.yCharacteristic?.read() ?? [0];
-      var zRaw = await _bluetoothService.zCharacteristic?.read() ?? [0];
-
+      var rawData = await _bluetoothService.gestureCharacteristic?.read() ?? [0];
       setState(() {
-        x = xRaw[0].toDouble();
-        y = yRaw[0].toDouble();
-        z = zRaw[0].toDouble();
+        gestureValue = rawData[0];
       });
-
       await Future.delayed(const Duration(seconds: 1));
     }
   }
@@ -68,45 +55,12 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Real-time Sensor Values',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                        child:
-                            _buildAxisCard("X-Axis", x, Icons.arrow_right_alt)),
-                    const SizedBox(width: 8),
-                    Expanded(
-                        child: _buildAxisCard("Y-Axis", y, Icons.arrow_upward)),
-                    const SizedBox(width: 8),
-                    Expanded(child: _buildAxisCard("Z-Axis", z, Icons.height)),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                StreamBuilder<String>(
-                  stream: _bluetoothService.gravityDirectionStream,
-                  builder: (context, snapshot) {
-                    String gravityDirection = snapshot.data ?? "Loading...";
-                    return _buildDataCard(
-                      "Gyroscope",
-                      "Gravity Direction: $gravityDirection",
-                      icon: Icons.rotate_right,
-                      cardColor: Colors.blue.shade200,
-                    );
-                  },
-                ),
-              ],
+          child: Center(
+            child: _buildDataCard(
+              "Gesture Value",
+              "Value: $gestureValue",
+              icon: Icons.touch_app,
+              cardColor: Colors.blue.shade200,
             ),
           ),
         ),
@@ -114,45 +68,12 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
     );
   }
 
-  Widget _buildAxisCard(String axisLabel, double value, IconData icon) {
-    return Card(
-      elevation: 4,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        child: Column(
-          children: [
-            Icon(icon, size: 28, color: Colors.blueAccent),
-            const SizedBox(height: 6),
-            Text(
-              axisLabel,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              value.toStringAsFixed(2),
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black54,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildDataCard(
-    String title,
-    String value, {
-    IconData? icon,
-    Color cardColor = Colors.white,
-  }) {
+      String title,
+      String value, {
+        IconData? icon,
+        Color cardColor = Colors.white,
+      }) {
     return Card(
       elevation: 4,
       color: cardColor,
@@ -160,7 +81,7 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading:
-            icon != null ? Icon(icon, size: 36, color: Colors.black87) : null,
+        icon != null ? Icon(icon, size: 36, color: Colors.black87) : null,
         title: Text(
           title,
           style: const TextStyle(

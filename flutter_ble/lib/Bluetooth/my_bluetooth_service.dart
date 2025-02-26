@@ -1,160 +1,99 @@
 import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart' as fbp;
+import 'package:permission_handler/permission_handler.dart';
 
 class MyBluetoothService {
   static final MyBluetoothService _instance = MyBluetoothService._internal();
   factory MyBluetoothService() => _instance;
-
-
-
-
-
-
 
   MyBluetoothService._internal();
 
   final String targetDeviceName = "Team2Arduino";
 
   fbp.BluetoothDevice? _device;
-  List<fbp.BluetoothService> _services = [];
-  fbp.BluetoothCharacteristic? _xCharacteristic;
-  fbp.BluetoothCharacteristic? _yCharacteristic;
-  fbp.BluetoothCharacteristic? _zCharacteristic;
+  fbp.BluetoothCharacteristic? gestureCharacteristic;
 
-  // Declarar las características BLE del giroscopio
-  fbp.BluetoothCharacteristic? _gyroXCharacteristic;
-  fbp.BluetoothCharacteristic? _gyroYCharacteristic;
-  fbp.BluetoothCharacteristic? _gyroZCharacteristic;
+  final StreamController<int> _gestureStreamController = StreamController<int>.broadcast();
+  Stream<int> get gestureStream => _gestureStreamController.stream;
 
-
-  fbp.BluetoothCharacteristic? get rollCharacteristic => _rollCharacteristic;
-  fbp.BluetoothCharacteristic? get pitchCharacteristic => _pitchCharacteristic;
-  fbp.BluetoothCharacteristic? get yawCharacteristic => _yawCharacteristic;
-
-  fbp.BluetoothCharacteristic? get gyroXCharacteristic => _gyroXCharacteristic;
-  fbp.BluetoothCharacteristic? get gyroYCharacteristic => _gyroYCharacteristic;
-  fbp.BluetoothCharacteristic? get gyroZCharacteristic => _gyroZCharacteristic;
-
-  fbp.BluetoothCharacteristic? get xCharacteristic => _xCharacteristic;
-  fbp.BluetoothCharacteristic? get yCharacteristic => _yCharacteristic;
-  fbp.BluetoothCharacteristic? get zCharacteristic => _zCharacteristic;
-
-
-
-  final StreamController<String> _gravityStreamController = StreamController<String>.broadcast();
-
-  Stream<String> get gravityDirectionStream => _gravityStreamController.stream;
-
-  Timer? _gravityTimer;
-
-  bool get isConnected => _device != null && _xCharacteristic != null && _yCharacteristic != null && _zCharacteristic != null;
-
-  fbp.BluetoothCharacteristic? _rollCharacteristic;
-  fbp.BluetoothCharacteristic? _pitchCharacteristic;
-  fbp.BluetoothCharacteristic? _yawCharacteristic;
+  bool get isConnected => _device != null && gestureCharacteristic != null;
 
   Future<bool> connectToDevice() async {
-    var subscription = fbp.FlutterBluePlus.onScanResults.listen(
-          (results) async {
-        for (fbp.ScanResult result in results) {
-          if (result.device.platformName == targetDeviceName) {
-            fbp.FlutterBluePlus.stopScan();
-            try {
-              await result.device.connect();
-              _services = await result.device.discoverServices();
-              _device = result.device;
-              print("Connected to device");
+    print("Requesting permissions...");
+    await _requestPermissions();
 
-              for (var service in _services) {
-                for (var char in service.characteristics) {
-                  if (char.uuid == fbp.Guid('2A19')) {
-                    _xCharacteristic = char;
-                  } else if (char.uuid == fbp.Guid('2A20')) {
-                    _yCharacteristic = char;
-                  } else if (char.uuid == fbp.Guid('2A21')) {
-                    _zCharacteristic = char;
-                  }
-                  if (char.uuid == fbp.Guid('2A22')) _rollCharacteristic = char;
-                  if (char.uuid == fbp.Guid('2A23')) _pitchCharacteristic = char;
-                  if (char.uuid == fbp.Guid('2A24')) _yawCharacteristic = char;
+    print("Starting scan...");
+    fbp.FlutterBluePlus.startScan(timeout: const Duration(seconds: 5));
 
+    // Listen for scan results
+    var subscription = fbp.FlutterBluePlus.onScanResults.listen((results) async {
+      for (fbp.ScanResult result in results) {
+        print("Found device: ${result.device.platformName}");
+
+        if (result.device.platformName == targetDeviceName) {
+          print("Target device found! Stopping scan...");
+          fbp.FlutterBluePlus.stopScan();
+
+          try {
+            await result.device.connect();
+            _device = result.device;
+            print("Connected to $targetDeviceName");
+
+            // Discover services AFTER connecting
+            await Future.delayed(const Duration(seconds: 2));
+            List<fbp.BluetoothService> services = await _device!.discoverServices();
+
+            for (var service in services) {
+              for (var char in service.characteristics) {
+                if (char.uuid == fbp.Guid('2A19')) {
+                  gestureCharacteristic = char;
+                  await gestureCharacteristic!.setNotifyValue(true);
+                  print("Subscribed to gesture notifications");
+
+                  // Listen for data
+                  gestureCharacteristic!.value.listen(_onGestureDataReceived);
                 }
               }
-
-              if (isConnected) {
-                startGravityUpdates();
-              }
-
-            } catch (e) {
-              print("Error connecting: $e");
             }
+          } catch (e) {
+            print("Connection failed: $e");
           }
         }
-      },
-      onError: (e) => print("Scan Error: $e"),
-    );
+      }
+    });
 
+    // Stop listening after scan completes
     fbp.FlutterBluePlus.cancelWhenScanComplete(subscription);
-    await fbp.FlutterBluePlus.startScan();
-    await Future.delayed(const Duration(seconds: 5));
 
+    // Wait for connection
+    await Future.delayed(const Duration(seconds: 5));
     return isConnected;
   }
 
-  Future<void> startGravityUpdates() async {
-    while (true) {
-      String direction = await getGravityDirection();
-      _gravityStreamController.add(direction);
-      await Future.delayed(Duration(seconds: 1));
+  Future<void> _requestPermissions() async {
+    if (await Permission.bluetooth.isDenied) {
+      await Permission.bluetooth.request();
+    }
+    if (await Permission.bluetoothScan.isDenied) {
+      await Permission.bluetoothScan.request();
+    }
+    if (await Permission.bluetoothConnect.isDenied) {
+      await Permission.bluetoothConnect.request();
+    }
+    if (await Permission.location.isDenied) {
+      await Permission.location.request();
     }
   }
 
-  Future<String> getGravityDirection() async {
-    if (!isConnected) return "NaN";
-
-    try {
-      var xRaw = await _xCharacteristic!.read();
-      var yRaw = await _yCharacteristic!.read();
-      var zRaw = await _zCharacteristic!.read();
-
-      double x = _convertRawData(xRaw);
-      double y = _convertRawData(yRaw);
-      double z = _convertRawData(zRaw);
-
-
-      return _determineGravityDirection(x, y, z);
-    } catch (e) {
-      print("Error reading characteristics: $e");
-      return "NaN";
-    }
-  }
-
-  double _convertRawData(List<int> rawData) {
-    if (rawData.isEmpty) return 0.0;
-    return rawData[0].toDouble();  // Assuming single-byte integer values (modify if needed)
-  }
-
-  String _determineGravityDirection(double x, double y, double z) {
-
-    double absX = x-40;
-    double absY = y-40;
-    double absZ = z-40;
-
-    absX = absX.abs();
-    absY = absY.abs();
-    absZ = absZ.abs();
-
-
-    if (absX > absY && absX > absZ) {
-      return "X";
-    } else if (absY > absX && absY > absZ) {
-      return "Y";
-    } else {
-      return "Z";
+  void _onGestureDataReceived(List<int> data) {
+    if (data.isNotEmpty) {
+      int gestureIndex = data[0]; // Assuming single-byte gesture index
+      _gestureStreamController.add(gestureIndex);
+      print("Received gesture index: $gestureIndex");
     }
   }
 
   void dispose() {
-    _gravityStreamController.close();
+    _gestureStreamController.close();
   }
 }
