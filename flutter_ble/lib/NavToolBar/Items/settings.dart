@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ble/welcomepage.dart';
 import 'package:provider/provider.dart';
 import 'theme_provider.dart';
-import 'package:flutter_ble/home_page.dart';
+import 'package:flutter_ble/welcomepage.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -44,7 +45,7 @@ class Settings extends StatelessWidget {
             title: Text("Logout"),
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => HomePage()),
+                MaterialPageRoute(builder: (context) => WelcomeScreen()),
                     (Route<dynamic> route) => false,
               );
             },
