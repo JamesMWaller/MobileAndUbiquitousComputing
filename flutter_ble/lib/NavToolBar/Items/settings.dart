@@ -29,7 +29,7 @@ class Settings extends StatelessWidget {
             title: Text("Account"),
             subtitle: Text("Name: jun\nEmail: xxxxxx@student.bham.ac.uk"),
             onTap: () {
-              // 계정 설정 화면으로 이동하는 코드 추가 가능
+              //
             },
           ),
           Divider(),

@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     String password = _passwordController.text;
 
     setState(() {
-      _errorMessage = null;  // 로그인 시 오류 메시지 초기화
+      _errorMessage = null;
     });
 
     //username == "admin" && password == "password"
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         elevation: 4,
         shadowColor: Colors.black,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFBFFF5A),
       ),
       body: GestureDetector(
         onTap: () {
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   CircleAvatar(
                     radius: 100,
-                    backgroundColor: Colors.black,
+                    backgroundColor: Color(0xFFBFFF5A),
                     child: Icon(
                       Icons.fitness_center_rounded,
                       size: 150,
@@ -141,8 +141,8 @@ class _HomePageState extends State<HomePage> {
                     onPressed: _login,
                     child: const Text('Login'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.white,
+                      backgroundColor: Color(0xFFBFFF5A),
+                      foregroundColor: Colors.black,
                     ),
                   ),
                   SizedBox(height: 10),
