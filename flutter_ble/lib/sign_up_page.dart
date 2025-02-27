@@ -88,18 +88,17 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Column(
                   children: [
                     TextFormField(
-                      controller: _emailController,
                       decoration: InputDecoration(
                         labelText: "Email",
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.emailAddress,
-                      validator: (value) =>
-                      value!.isEmpty || !value.contains("@") ? "Enter a valid email" : null,
+                      // validator: (value) =>
+                      // value!.isEmpty || !value.contains("@") ? "Enter a valid email" : null,
                     ),
                     SizedBox(height: 10),
                     TextFormField(
-                      controller: _passwordController,
+                      // controller: _passwordController,
                       decoration: InputDecoration(
                         labelText: "Password",
                         border: OutlineInputBorder(),
@@ -115,11 +114,11 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       obscureText: _obscurePassword,
-                      validator: (value) => value!.length < 6 ? "Password must be at least 6 characters" : null,
+                      // validator: (value) => value!.length < 6 ? "Password must be at least 6 characters" : null,
                     ),
                     SizedBox(height: 10),
                     TextFormField(
-                      controller: _confirmPasswordController,
+                      // controller: _confirmPasswordController,
                       decoration: InputDecoration(
                         labelText: "Confirm Password",
                         border: OutlineInputBorder(),
@@ -135,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       obscureText: _obscureConfirmPassword,
-                      validator: (value) => value!.isEmpty ? "Confirm your password" : null,
+                      // validator: (value) => value!.isEmpty ? "Confirm your password" : null,
                     ),
                     SizedBox(height: 20),
                     ElevatedButton(
