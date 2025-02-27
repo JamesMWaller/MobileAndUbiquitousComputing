@@ -48,10 +48,6 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
     bool isDarkMode = themeProvider.isDarkMode;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Arduino Data"),
-        backgroundColor: isDarkMode ? Colors.black : Colors.blueAccent,
-      ),
       backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: Container(
         decoration: isDarkMode
