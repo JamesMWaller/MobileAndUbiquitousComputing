@@ -7,6 +7,7 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
 
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
@@ -19,7 +20,12 @@ class Settings extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    child: Icon(Icons.person, size: 50),
+                    backgroundColor: isDarkMode ? Colors.green : Colors.grey,
+                    child: Icon(
+                      Icons.person,
+                      size: 50,
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -37,10 +43,16 @@ class Settings extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.dark_mode),
+            leading: Icon(
+              Icons.dark_mode,
+              color: isDarkMode ? Colors.green : Colors.grey,
+            ),
             title: Text("Dark Mode"),
             trailing: Switch(
-              value: themeProvider.isDarkMode,
+              value: isDarkMode,
+              activeColor: Colors.green, // Color when dark mode is enabled
+              inactiveThumbColor:
+                  Colors.grey, // Color when dark mode is disabled
               onChanged: (value) {
                 themeProvider.toggleTheme();
               },

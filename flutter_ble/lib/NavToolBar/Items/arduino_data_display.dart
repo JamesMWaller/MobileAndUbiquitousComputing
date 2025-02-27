@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../Bluetooth/my_bluetooth_service.dart';
+import 'theme_provider.dart'; // Adjust path as needed
 
 class ArduinoDataDisplay extends StatefulWidget {
-  const ArduinoDataDisplay({super.key});
+  const ArduinoDataDisplay({Key? key}) : super(key: key);
 
   @override
   _ArduinoDataDisplayState createState() => _ArduinoDataDisplayState();
@@ -24,7 +26,8 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
 
   Future<void> _updateGestureData() async {
     while (mounted) {
-      var rawData = await _bluetoothService.gestureCharacteristic?.read() ?? [0];
+      var rawData =
+          await _bluetoothService.gestureCharacteristic?.read() ?? [0];
       setState(() {
         gestureValue = rawData[0];
       });
@@ -40,27 +43,34 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme mode from the provider
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Arduino Data"),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: isDarkMode ? Colors.black : Colors.blueAccent,
       ),
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.white, Colors.blueGrey],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        decoration: isDarkMode
+            ? const BoxDecoration(color: Colors.black)
+            : const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.white, Colors.white],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Center(
             child: _buildDataCard(
               "Gesture Value",
-              "Value: $gestureValue",
-              icon: Icons.touch_app,
-              cardColor: Colors.blue.shade200,
+              "$gestureValue",
+              cardColor: isDarkMode ? const Color(0xFFBFFF5A) : Colors.white,
+              textColor: isDarkMode ? Colors.black : Colors.black87,
             ),
           ),
         ),
@@ -69,29 +79,40 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
   }
 
   Widget _buildDataCard(
-      String title,
-      String value, {
-        IconData? icon,
-        Color cardColor = Colors.white,
-      }) {
+    String title,
+    String value, {
+    Color cardColor = Colors.white,
+    Color textColor = Colors.black,
+  }) {
     return Card(
       elevation: 4,
       color: cardColor,
       margin: const EdgeInsets.symmetric(vertical: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        leading:
-        icon != null ? Icon(icon, size: 36, color: Colors.black87) : null,
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        subtitle: Text(
-          value,
-          style: const TextStyle(fontSize: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: textColor,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              value,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 48,
+                color: textColor,
+              ),
+            ),
+          ],
         ),
       ),
     );
