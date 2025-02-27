@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -11,7 +13,8 @@ class _ExercisePageState extends State<ExercisePage> {
   final Stopwatch stopwatch = Stopwatch();
   Timer? timer;
   int repetitions = 0;
-  Color backgroundColor = Colors.black;
+
+  int arduinoVariable = 0;
 
   @override
   void initState() {
@@ -34,10 +37,39 @@ class _ExercisePageState extends State<ExercisePage> {
     return "${twoDigits(duration.inMinutes)}:${twoDigits(duration.inSeconds.remainder(60))}";
   }
 
+
+  String evaluateRep() {
+    Random random = Random();
+
+    int position = random.nextInt(3); // 0: bottom, 1: top, 2: undecided
+    int time = random.nextInt(5) + 1;
+    int stability = random.nextInt(3); // 0: unstable, 1: regular, 2: stable
+
+    print("Posición: $position, Tiempo: $time, Estabilidad: $stability");
+
+    if (time >= 3 && stability == 2) {
+      return "Good rep";
+    } else if (time >= 2 && stability >= 1) {
+      return "Regular rep";
+    } else {
+      return "Bad rep";
+    }
+  }
+
+  int rep(){
+    if(evaluateRep() == 'Good rep'){
+      return 2;
+    }else if(evaluateRep() == 'Regular rep'){
+      return 1;
+    }else{
+      return 0;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +82,7 @@ class _ExercisePageState extends State<ExercisePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Good Technique!",
+                      evaluateRep(),
                       style: TextStyle(
                         fontSize: 48,
                         fontWeight: FontWeight.bold,
