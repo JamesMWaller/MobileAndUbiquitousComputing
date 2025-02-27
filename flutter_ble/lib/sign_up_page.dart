@@ -168,7 +168,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         SizedBox(width: 20),
                         IconButton(
-                          icon: Icon(Icons.apple, color: Colors.black, size: 40),
+                          icon: Icon(Icons.apple, size: 40,),
+                          color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
                           onPressed: () {},
                         ),
                       ],

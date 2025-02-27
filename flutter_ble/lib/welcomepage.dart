@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ble/home_page.dart';
 import 'package:flutter_ble/sign_up_page.dart';
+import 'NavToolBar/bottom_nav_bar.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -61,16 +62,18 @@ class WelcomeScreen extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   foregroundColor: Colors.black,
+
                   side: BorderSide(color: Colors.black),
                   minimumSize: Size(double.infinity, 50),
                 ),
-                child: Text("Register"),
+                child: Text("Register", style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color)),
+
               ),
               TextButton(
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
+                    MaterialPageRoute(builder: (context) => BottomNavBar()),
                   );
                 },
                 child: Text(
