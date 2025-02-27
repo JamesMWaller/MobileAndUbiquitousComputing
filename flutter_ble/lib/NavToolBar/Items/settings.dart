@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ble/welcomepage.dart';
 import 'package:provider/provider.dart';
 import 'theme_provider.dart';
-import 'package:flutter_ble/welcomepage.dart';
 
 class Settings extends StatelessWidget {
   @override
@@ -11,9 +10,32 @@ class Settings extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text("Settings")),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: [
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.0),
+            child: Center(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    child: Icon(Icons.person, size: 50),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "jun",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 5),
+                  Text(
+                    "xxxxxx@student.bham.ac.uk",
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Divider(),
           ListTile(
             leading: Icon(Icons.dark_mode),
             title: Text("Dark Mode"),
@@ -23,15 +45,6 @@ class Settings extends StatelessWidget {
                 themeProvider.toggleTheme();
               },
             ),
-          ),
-          Divider(),
-          ListTile(
-            leading: Icon(Icons.person, color: Colors.blue),
-            title: Text("Account"),
-            subtitle: Text("Name: jun\nEmail: xxxxxx@student.bham.ac.uk"),
-            onTap: () {
-              //
-            },
           ),
           Divider(),
           ListTile(
@@ -46,7 +59,7 @@ class Settings extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => WelcomeScreen()),
-                    (Route<dynamic> route) => false,
+                (Route<dynamic> route) => false,
               );
             },
           ),
@@ -55,4 +68,3 @@ class Settings extends StatelessWidget {
     );
   }
 }
-

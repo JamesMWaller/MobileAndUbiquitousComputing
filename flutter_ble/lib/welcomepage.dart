@@ -68,7 +68,6 @@ class WelcomeScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {
-                  // 게스트로 이동 (홈 화면 등)
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => HomePage()),
