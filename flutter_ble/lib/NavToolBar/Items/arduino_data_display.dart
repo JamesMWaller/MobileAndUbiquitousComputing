@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../Bluetooth/my_bluetooth_service.dart';
-import 'theme_provider.dart'; // Adjust path as needed
+import 'settings/theme_provider.dart'; // Adjust path as needed
 
 class ArduinoDataDisplay extends StatefulWidget {
   const ArduinoDataDisplay({Key? key}) : super(key: key);

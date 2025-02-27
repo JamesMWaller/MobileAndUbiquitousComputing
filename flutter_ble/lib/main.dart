@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ble/welcomepage.dart';
 import 'package:provider/provider.dart';
 import 'home_page.dart';
-import 'NavToolBar/Items/settings.dart';
-import 'NavToolBar/Items/theme_provider.dart';
+import 'NavToolBar/Items/settings/settings.dart';
+import 'NavToolBar/Items/settings/theme_provider.dart';
 
 void main() {
   runApp(

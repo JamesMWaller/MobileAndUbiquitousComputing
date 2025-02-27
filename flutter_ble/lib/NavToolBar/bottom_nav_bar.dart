@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_ble/home_page.dart';
-import 'Items/settings.dart';
+import 'package:provider/provider.dart';
+import 'Items/settings/settings.dart';
 import 'Items/exercises.dart';
 import 'Items/arduino_data_display.dart';
+import 'Items/settings/theme_provider.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -22,19 +24,35 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+
+
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        key: _bottomNavigationKey,
-        index: 0,
-        items: <Widget>[
-          Icon(Icons.home_filled, size: 30, color: Colors.white,),
-          Icon(Icons.science_rounded, size: 30, color: Colors.white,),
-          Icon(Icons.settings, size: 30, color: Colors.white,),
-        ],
         color: Colors.black,
+        key: _bottomNavigationKey,
+        index: _page,
+        items: <Widget>[
+          Icon(
+            Icons.home_filled,
+            size: 30,
+            color: _page == 0 ? Colors.black : Colors.white,
+          ),
+          Icon(
+            Icons.science_rounded,
+            size: 30,
+            color: _page == 1 ? Colors.black : Colors.white,
+          ),
+          Icon(
+            Icons.settings,
+            size: 30,
+            color: _page == 2 ? Colors.black : Colors.white,
+          ),
+        ],
         height: 55,
-        buttonBackgroundColor: Colors.black,
-        backgroundColor: Colors.white,
+        buttonBackgroundColor: Color(0xFFBFFF5A),
+        backgroundColor: Colors.black,
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 400),
         onTap: (index) {
@@ -46,5 +64,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
       ),
       body: _pages[_page],
     );
+
   }
 }
