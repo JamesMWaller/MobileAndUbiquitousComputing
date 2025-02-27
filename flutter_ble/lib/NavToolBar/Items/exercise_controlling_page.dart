@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
+import '../../Bluetooth/my_bluetooth_service.dart';
 
 class ExercisePage extends StatefulWidget {
   @override
@@ -16,6 +17,10 @@ class _ExercisePageState extends State<ExercisePage> {
 
   int arduinoVariable = 0;
 
+  final MyBluetoothService _bluetoothService = MyBluetoothService();
+  int gestureValue = 0;
+  bool topOfRep = false;
+
   @override
   void initState() {
     super.initState();
@@ -23,6 +28,21 @@ class _ExercisePageState extends State<ExercisePage> {
     timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
       setState(() {});
     });
+    _bluetoothService.connectToDevice().then((connected) {
+      if (connected) {
+        _updateGestureData();
+      }
+    });
+  }
+
+  Future<void> _updateGestureData() async {
+    while (mounted) {
+      var rawData = await _bluetoothService.gestureCharacteristic?.read() ?? [0];
+      setState(() {
+        gestureValue = rawData[0];
+      });
+      await Future.delayed(const Duration(seconds: 1));
+    }
   }
 
   @override
@@ -39,13 +59,32 @@ class _ExercisePageState extends State<ExercisePage> {
 
 
   String evaluateRep() {
+    
+
+
+
     Random random = Random();
 
-    int position = random.nextInt(3); // 0: bottom, 1: top, 2: undecided
+
+
+    _updateGestureData();
+
+    int position = gestureValue;
+
+    if (position == 2){
+      topOfRep = true;
+    }
+
+    if (topOfRep && position == 1){
+      topOfRep = false;
+      repetitions+=1;
+    }
+
+    // 0: bottom, 1: top, 2: undecided
     int time = random.nextInt(5) + 1;
     int stability = random.nextInt(3); // 0: unstable, 1: regular, 2: stable
 
-    print("Posición: $position, Tiempo: $time, Estabilidad: $stability");
+    print("Posición: $position, Tiempo: $time, Estabilidad: $stability, topOfRep: $topOfRep");
 
     if (time >= 3 && stability == 2) {
       return "Good rep";
