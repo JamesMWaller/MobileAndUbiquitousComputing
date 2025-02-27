@@ -14,17 +14,20 @@ class _ExercisePageState extends State<ExercisePage> {
   final Stopwatch stopwatch = Stopwatch();
   Timer? timer;
   int repetitions = 0;
+  final Stopwatch repStopwatch = Stopwatch();
 
   int arduinoVariable = 0;
 
   final MyBluetoothService _bluetoothService = MyBluetoothService();
   int gestureValue = 0;
   bool topOfRep = false;
+  String currentRepQuality = "Start Curling";
 
   @override
   void initState() {
     super.initState();
     stopwatch.start();
+    repStopwatch.start();
     timer = Timer.periodic(Duration(seconds: 1), (Timer t) {
       setState(() {});
     });
@@ -41,7 +44,7 @@ class _ExercisePageState extends State<ExercisePage> {
       setState(() {
         gestureValue = rawData[0];
       });
-      await Future.delayed(const Duration(seconds: 1));
+
     }
   }
 
@@ -59,13 +62,9 @@ class _ExercisePageState extends State<ExercisePage> {
 
 
   String evaluateRep() {
-    
-
-
 
     Random random = Random();
-
-
+    int time = 0;
 
     _updateGestureData();
 
@@ -76,23 +75,34 @@ class _ExercisePageState extends State<ExercisePage> {
     }
 
     if (topOfRep && position == 1){
+
+      time = repStopwatch.elapsedMilliseconds;
+
+      repStopwatch.reset();
+
       topOfRep = false;
       repetitions+=1;
+      if (time >= 3000 ) {
+        currentRepQuality =  "Good rep";
+      } else if (time >= 2000 ) {
+        currentRepQuality = "Regular rep";
+      } else {
+        currentRepQuality =  "Bad rep";
+      }
     }
 
     // 0: bottom, 1: top, 2: undecided
-    int time = random.nextInt(5) + 1;
-    int stability = random.nextInt(3); // 0: unstable, 1: regular, 2: stable
 
-    print("Posición: $position, Tiempo: $time, Estabilidad: $stability, topOfRep: $topOfRep");
+   // 0: unstable, 1: regular, 2: stable
 
-    if (time >= 3 && stability == 2) {
-      return "Good rep";
-    } else if (time >= 2 && stability >= 1) {
-      return "Regular rep";
-    } else {
-      return "Bad rep";
-    }
+    print("Posición: $position, Tiempo: $time, topOfRep: $topOfRep");
+
+
+
+
+    return currentRepQuality;
+
+
   }
 
   int rep(){
