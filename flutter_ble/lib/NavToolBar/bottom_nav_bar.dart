@@ -51,7 +51,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ),
         ],
         height: 55,
-        buttonBackgroundColor: Color(0xFFBFFF5A),
+        buttonBackgroundColor: Color(0xFFA6E64F),
         backgroundColor: Colors.black,
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 400),

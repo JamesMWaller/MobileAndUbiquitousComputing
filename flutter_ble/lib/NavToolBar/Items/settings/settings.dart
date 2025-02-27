@@ -36,6 +36,7 @@ class Settings extends StatelessWidget {
         return Column(
           children: [
             child,
+            child,
             Divider(),
           ],
         );
