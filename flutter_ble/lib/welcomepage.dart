@@ -6,7 +6,6 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -17,11 +16,12 @@ class WelcomeScreen extends StatelessWidget {
               Spacer(),
               CircleAvatar(
                 radius: 100,
-                backgroundColor: Color(0xFFBFFF5A),
+                backgroundColor: Colors.black,
                 child: Icon(
                   Icons.fitness_center_rounded,
                   size: 150,
-                  color: Colors.white,
+                  color: Color(0xFFBFFF5A),
+
                 ),
               ),
               SizedBox(height: 20),
