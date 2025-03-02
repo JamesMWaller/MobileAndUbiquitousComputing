@@ -209,6 +209,7 @@ void loop() {
         Serial.print("Connected to central:");
         Serial.println(central.address());
         digitalWrite(LED_BUILTIN, HIGH);
+        
 
         if (tflOutputTensor->data.f[i] > 0.9){
           if (i == 0 ){

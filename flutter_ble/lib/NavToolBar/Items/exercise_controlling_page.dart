@@ -44,6 +44,7 @@ class _ExercisePageState extends State<ExercisePage> {
       setState(() {
         gestureValue = rawData[0];
       });
+      await Future.delayed(const Duration(milliseconds: 200));
 
     }
   }

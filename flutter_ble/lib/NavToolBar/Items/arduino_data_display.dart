@@ -47,8 +47,7 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
         y = yRaw[0].toDouble();
         z = zRaw[0].toDouble();
       });
-
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 200));
     }
   }
 

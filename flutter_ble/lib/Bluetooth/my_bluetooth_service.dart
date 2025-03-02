@@ -51,7 +51,7 @@ class MyBluetoothService {
                   print("Subscribed to gesture notifications");
 
                   // Listen for data
-                  gestureCharacteristic!.value.listen(_onGestureDataReceived);
+
                 }
               }
             }
@@ -85,13 +85,6 @@ class MyBluetoothService {
     }
   }
 
-  void _onGestureDataReceived(List<int> data) {
-    if (data.isNotEmpty) {
-      int gestureIndex = data[0]; // Assuming single-byte gesture index
-      _gestureStreamController.add(gestureIndex);
-      print("Received gesture index: $gestureIndex");
-    }
-  }
 
   void dispose() {
     _gestureStreamController.close();
