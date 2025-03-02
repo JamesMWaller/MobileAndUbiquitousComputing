@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../Bluetooth/my_bluetooth_service.dart';
+import 'settings/theme_provider.dart'; // Adjust path as needed
 
 class ArduinoDataDisplay extends StatefulWidget {
-  const ArduinoDataDisplay({super.key});
+  const ArduinoDataDisplay({Key? key}) : super(key: key);
 
   @override
   _ArduinoDataDisplayState createState() => _ArduinoDataDisplayState();
@@ -10,42 +12,24 @@ class ArduinoDataDisplay extends StatefulWidget {
 
 class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
   final MyBluetoothService _bluetoothService = MyBluetoothService();
-
-  double x = 0.0;
-  double y = 0.0;
-  double z = 0.0;
+  int gestureValue = 0;
 
   @override
   void initState() {
     super.initState();
     _bluetoothService.connectToDevice().then((connected) {
       if (connected) {
-        _updateSensorData();
+        _updateGestureData();
       }
     });
   }
 
-  Future<void> _updateSensorData() async {
+  Future<void> _updateGestureData() async {
     while (mounted) {
-      // Read the gravity direction (even if you don't need to set it here)
-      String gravityDirection =
-          'a'; //todo: await _bluetoothService.getGravityDirection();
-
-      // Read raw data from characteristics
-      var xRaw = [
-        1
-      ]; //todo: await _bluetoothService.xCharacteristic?.read() ?? [0];
-      var yRaw = [
-        2
-      ]; //todo: await _bluetoothService.yCharacteristic?.read() ?? [0];
-      var zRaw = [
-        3
-      ]; //todo: await _bluetoothService.zCharacteristic?.read() ?? [0];
-
+      var rawData =
+          await _bluetoothService.gestureCharacteristic?.read() ?? [0];
       setState(() {
-        x = xRaw[0].toDouble();
-        y = yRaw[0].toDouble();
-        z = zRaw[0].toDouble();
+        gestureValue = rawData[0];
       });
       await Future.delayed(const Duration(milliseconds: 200));
     }
@@ -59,67 +43,30 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme mode from the provider
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
-      // AppBar with a distinct background color
-      appBar: AppBar(
-        title: const Text("Arduino Data"),
-        backgroundColor: Colors.blueAccent,
-      ),
-      // A subtle gradient background for the body
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.white, Colors.blueGrey],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        decoration: isDarkMode
+            ? const BoxDecoration(color: Colors.black)
+            : const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.white, Colors.white],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          // Use a SingleChildScrollView if you expect overflow
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // A heading or subtitle
-                const Text(
-                  'Sensor Values',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                // Row of X, Y, Z axis cards
-                Row(
-                  children: [
-                    Expanded(
-                        child:
-                            _buildAxisCard("X-Axis", x, Icons.arrow_right_alt)),
-                    const SizedBox(width: 8),
-                    Expanded(
-                        child: _buildAxisCard("Y-Axis", y, Icons.arrow_upward)),
-                    const SizedBox(width: 8),
-                    Expanded(child: _buildAxisCard("Z-Axis", z, Icons.height)),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                // Gravity direction
-                StreamBuilder<String>(
-                  stream:
-                      null, //todo: _bluetoothService.gravityDirectionStream,
-                  builder: (context, snapshot) {
-                    String gravityDirection = snapshot.data ?? "Loading...";
-                    return _buildDataCard(
-                      "Gyroscope",
-                      "Gravity Direction: $gravityDirection",
-                      icon: Icons.rotate_right,
-                      cardColor: Colors.blue.shade200,
-                    );
-                  },
-                ),
-              ],
+          child: Center(
+            child: _buildDataCard(
+              "Gesture Value",
+              "$gestureValue",
+              cardColor: isDarkMode ? const Color(0xFFBFFF5A) : Colors.white,
+              textColor: isDarkMode ? Colors.black : Colors.black87,
             ),
           ),
         ),
@@ -127,65 +74,41 @@ class _ArduinoDataDisplayState extends State<ArduinoDataDisplay> {
     );
   }
 
-  /// Builds a card to show a single axis value with an icon
-  Widget _buildAxisCard(String axisLabel, double value, IconData icon) {
-    return Card(
-      elevation: 4,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-        child: Column(
-          children: [
-            Icon(icon, size: 28, color: Colors.blueAccent),
-            const SizedBox(height: 6),
-            Text(
-              axisLabel,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Colors.black87,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              value.toStringAsFixed(2),
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black54,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// A reusable card builder for other data (e.g., gravity direction)
   Widget _buildDataCard(
     String title,
     String value, {
-    IconData? icon,
     Color cardColor = Colors.white,
+    Color textColor = Colors.black,
   }) {
     return Card(
       elevation: 4,
       color: cardColor,
       margin: const EdgeInsets.symmetric(vertical: 10),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        leading:
-            icon != null ? Icon(icon, size: 36, color: Colors.black87) : null,
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        subtitle: Text(
-          value,
-          style: const TextStyle(fontSize: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+                color: textColor,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              value,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 48,
+                color: textColor,
+              ),
+            ),
+          ],
         ),
       ),
     );
