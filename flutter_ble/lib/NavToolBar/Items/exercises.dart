@@ -13,7 +13,7 @@ class Exercises extends StatelessWidget  {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Text('Hi Admin,',
+          Text('Hi Jun,',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w400,

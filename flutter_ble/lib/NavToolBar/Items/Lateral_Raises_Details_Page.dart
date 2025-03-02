@@ -20,6 +20,11 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
   final PageController _pageController = PageController();
   @override
   Widget build(BuildContext context) {
+    // Detect brightness (light or dark mode)
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    Color containerColor = Color(0xFF23232C);
+    Color textColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
         appBar: AppBar(title: Text("Lat Raises Activity")),
         body: SingleChildScrollView(
@@ -32,7 +37,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                   padding: const EdgeInsets.all(16.0),
                   width: MediaQuery.of(context).size.width, // Adjust this value as needed
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: isDarkMode ? Color(0xFFBFFF5A) : Color(0xFF23232C),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Row(
@@ -42,7 +47,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                         "Start recording exercise",
                         style: TextStyle(
                           fontSize: 21,
-                          color: Colors.white,
+                          color: textColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -51,7 +56,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => ExercisePage()));
                         },
-                        icon: Icon(Icons.play_circle, color: Colors.white, size: 40.0),
+                        icon: Icon(Icons.play_circle, color: textColor, size: 40.0),
                       ),
                     ],
                   ),
@@ -62,7 +67,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                   padding: const EdgeInsets.all(16.0),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Color(0xFF23232C),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Column(
@@ -93,12 +98,13 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                           backgroundColor: MaterialStateProperty.resolveWith(
                                 (states) => states.contains(MaterialState.selected)
                                 ? Colors.white
-                                : Colors.green.shade700,
+                                : Color(0xFFBFFF5A),
                           ),
                           foregroundColor: MaterialStateProperty.resolveWith(
                                 (states) => states.contains(MaterialState.selected)
-                                ? Colors.green
-                                : Colors.white,
+                                ? Colors.black
+                                : Colors.black,
+
                           ),
                         ),
                       ),
@@ -122,7 +128,9 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                           padding: const EdgeInsets.all(16.0),
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
-                            color: Colors.orange,
+                            color: isDarkMode
+                                ? Color(0xFFBFFF5A)
+                                :Color(0xFF23232C),
                             borderRadius: BorderRadius.circular(12.0),
                           ),
                           child: Column(
@@ -132,7 +140,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                                 "Useful Tip- Swipe",
                                 style: TextStyle(
                                   fontSize: 25,
-                                  color: Colors.white,
+                                  color: textColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -142,7 +150,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: Colors.white,
+                                  color: textColor,
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
@@ -158,7 +166,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 0, 266, 0.5),
+                    color: containerColor,
                     // color: Color(0xFFFF00FF),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -172,6 +180,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
+                      SizedBox(height: 10),
                       _buildHelpfulLinks(),
                     ],
                   ),
@@ -196,6 +205,8 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
     );
   }
   Widget _buildLink(String text, String url) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    Color textColor =  Colors.white;
     return GestureDetector(
       onTap: () async {
         if (await canLaunch(url)) {
@@ -211,7 +222,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                 style: TextStyle(
                     fontSize: 16,
                     height: 1.55,
-                    color: Colors.white
+                    color: textColor
                 ),
               ),
               SizedBox(
@@ -222,9 +233,9 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                     text,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white,
+                      color: textColor,
                       decoration: TextDecoration.underline,
-                      decorationColor: Colors.white,
+                      decorationColor: textColor,
                     ),
                   ),
               ),
@@ -273,7 +284,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
               barRods: [
                 BarChartRodData(
                   toY: value.toDouble(),
-                  color: Colors.white,
+                  color: Theme.of(context).brightness == Brightness.dark ? Colors.white : Color(0xFFBFFF5A),
                   width: 16,
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -287,7 +298,6 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
       ),
     );
   }
-
   List<int> _getDataForTimeFrame(String timeFrame) {
     if (timeFrame == 'Days') return [10, 12, 8, 15, 20, 18, 22]; // Hourly reps
     if (timeFrame == 'Weeks') return [50, 60, 70, 80, 90, 75, 85]; // Daily reps
