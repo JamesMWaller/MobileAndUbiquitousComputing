@@ -54,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   Icon(Icons.arrow_back_ios_new, color: Color(0xFFBFFF5A), size: 20), // Thin iOS-style back button
                   SizedBox(width: 5),
                   Text(
-                    "Sign in",
+                    "Welcome Screen",
                     style: TextStyle(
                       fontFamily: "SFPro",
                       color: Color(0xFFBFFF5A),
@@ -79,8 +79,8 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               SizedBox(height: 20),
               Text(
-                "Hello! Register to get started",
-                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                "Register to get started",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
               Form(

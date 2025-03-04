@@ -22,22 +22,48 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          title: Text(
-            "Bicep Curl Activity",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30),
-          ),
           backgroundColor: Colors.black,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () => Navigator.pop(context),
+          title: GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: Container(
+                child: Row(
+                  children:  [
+                    SizedBox(width: 10),
+                    Icon(Icons.arrow_back_ios_new, color: Color(0xFFBFFF5A), size: 20), // Thin iOS-style back button
+                    SizedBox(width: 5),
+                    Text(
+                      "Home",
+                      style: TextStyle(
+                        fontFamily: "SFPro",
+                        color: Color(0xFFBFFF5A),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              )
           ),
+          toolbarHeight: 44,
+          centerTitle: false,
+          automaticallyImplyLeading: false,
         ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 50),
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft, // Aligns the text to the left
+                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Bicep Curl Activity",
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30),
                 Container(
                   padding: const EdgeInsets.all(16.0),
                   width: 400,

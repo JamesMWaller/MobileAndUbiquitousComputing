@@ -15,7 +15,7 @@ class DailyWorkoutPage extends StatelessWidget {
                 Icon(Icons.arrow_back_ios_new, size: 20, color: Colors.black), // Thin iOS-style back button
                 SizedBox(width: 5),
                 Text(
-                  "Exercises",
+                  "Home",
                   style: TextStyle(
                     fontFamily: "SFPro",
                     fontSize: 18,

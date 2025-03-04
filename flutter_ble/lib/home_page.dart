@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                 Icon(Icons.arrow_back_ios_new, color: Color(0xFFBFFF5A), size: 20),
                 SizedBox(width: 5),
                 Text(
-                  "Sign in",
+                  "Welcome Screen",
                   style: TextStyle(
                     fontFamily: "SFPro",
                     color: Color(0xFFBFFF5A),
@@ -108,8 +108,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  "Welcome back! Glad to see you, Again!",
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+                  "Welcome back!",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 20),
                 TextField(

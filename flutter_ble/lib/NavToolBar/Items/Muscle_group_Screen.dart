@@ -31,7 +31,7 @@ class MuscleGroupsScreen extends StatelessWidget {
                   ), // Thin iOS-style back button
                   SizedBox(width: 5),
                   Text(
-                    "Exercises",
+                    "Home",
                     style: TextStyle(
                       fontFamily: "SFPro",
                       color: Theme.of(context).brightness == Brightness.dark ? Color(0xFFBFFF5A) : Colors.black,

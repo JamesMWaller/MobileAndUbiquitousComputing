@@ -26,16 +26,51 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
     Color containerColor = Color(0xFF23232C);
     Color textColor = isDarkMode ? Colors.black : Colors.white;
     return Scaffold(
-        appBar: AppBar(title: Text("Lat Raises Activity")),
+        appBar: AppBar(
+          title: GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: Container(
+                child: Row(
+                  children:  [
+                    SizedBox(width: 10),
+                    Icon(Icons.arrow_back_ios_new, color: Theme.of(context).brightness == Brightness.dark ? Color(0xFFBFFF5A) : Colors.black, size: 20), // Thin iOS-style back button
+                    SizedBox(width: 5),
+                    Text(
+                      "Home",
+                      style: TextStyle(
+                        fontFamily: "SFPro",
+                        color: Theme.of(context).brightness == Brightness.dark ? Color(0xFFBFFF5A) : Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+          ),
+          toolbarHeight: 44,
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+        ),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 10),
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerLeft, // Aligns the text to the left
+                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Lateral Raise Activity",
+                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30),
                 Container(
                   padding: const EdgeInsets.all(16.0),
-                  width: MediaQuery.of(context).size.width, // Adjust this value as needed
+                  width: MediaQuery.of(context).size.width -10,   // Adjust this value as needed
                   decoration: BoxDecoration(
                     color: isDarkMode ? Color(0xFFBFFF5A) : Color(0xFF23232C),
                     borderRadius: BorderRadius.circular(12.0),
@@ -65,7 +100,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                 SizedBox(height: 30),
                 Container(
                   padding: const EdgeInsets.all(16.0),
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width -10,
                   decoration: BoxDecoration(
                     color: Color(0xFF23232C),
                     borderRadius: BorderRadius.circular(12.0),
@@ -126,7 +161,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0), // Adds spacing between cards
                         child: Container(
                           padding: const EdgeInsets.all(16.0),
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width -10,
                           decoration: BoxDecoration(
                             color: isDarkMode
                                 ? Color(0xFFBFFF5A)
@@ -170,7 +205,7 @@ class _LatDetailsPageState extends State<LatDetailsPage> {
                     // color: Color(0xFFFF00FF),
                     borderRadius: BorderRadius.circular(12.0),
                   ),
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.of(context).size.width -10,
                   child: Column(
                     children: [
                       Text('Additional Links',
