@@ -30,6 +30,18 @@ class DailyWorkoutPage extends StatelessWidget {
         toolbarHeight: 44,
         centerTitle: false,
         automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0), // Add padding to move the button away from the edge
+            child: IconButton(
+              onPressed: () {
+                // Add functionality for the "..." button here
+                print("More options tapped");
+              },
+              icon: Icon(Icons.more_horiz, color: Colors.black, size: 25), // iOS-style "..." button
+            ),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
