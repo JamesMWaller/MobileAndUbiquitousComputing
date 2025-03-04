@@ -53,7 +53,7 @@ class DailyWorkoutPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Today\'s Workout',
+                  'Today\'s Workout Goal',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
