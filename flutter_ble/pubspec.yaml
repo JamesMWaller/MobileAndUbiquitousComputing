@@ -77,6 +77,7 @@ flutter:
     - assets/images/Hamstrings_Muscle.png
     - assets/images/Bicep_Muscle.png
     - assets/images/Pectoral_Muscle.png
+    - assets/images/google_logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

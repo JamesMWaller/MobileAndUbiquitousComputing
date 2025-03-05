@@ -158,8 +158,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         SizedBox(width: 20),
                         IconButton(
-                          icon: Image.network(
-                            'http://pngimg.com/uploads/google/google_PNG19635.png',
+                          icon: Image.asset(
+                            'assets/images/google_logo.png',
                             fit: BoxFit.cover,
                             height: 40,
                           ),
