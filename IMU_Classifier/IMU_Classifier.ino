@@ -206,8 +206,7 @@ void loop() {
       Serial.println(tflOutputTensor->data.f[i], 6);
 
       if (central) {
-        Serial.print("Connected to central:");
-        Serial.println(central.address());
+        
         digitalWrite(LED_BUILTIN, HIGH);
         
 
